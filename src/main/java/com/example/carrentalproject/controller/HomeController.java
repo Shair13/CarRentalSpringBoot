@@ -7,9 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
+@SessionAttributes("user")
 public class HomeController {
 
     private final UserRepository userRepository;
@@ -37,4 +40,35 @@ public class HomeController {
         userRepository.save(user);
         return "redirect:/";
     }
+
+    @GetMapping("/login")
+    public String displayLogin(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user != null && "user".equals(user.getType())) {
+            return "redirect:/user/dashboard";
+        }
+        return "home/login";
+    }
+
+    @PostMapping("/login")
+    public String processLogin(@RequestParam String email, @RequestParam String password, Model model) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isEmpty()) {
+            return "redirect:/login";
+        }
+        User user = userOptional.get();
+        String typeOfUser = user.getType();
+        if ("user".equals(typeOfUser) && user.getPassword().equals(password)) {
+            model.addAttribute("user", user);
+            return "redirect:/user/dashboard";
+        }
+        if (typeOfUser.equals("employee") && user.getPassword().equals(password)) {
+            return "";
+        }
+        if (typeOfUser.equals("admin") && user.getPassword().equals(password)) {
+            return "";
+        }
+        return "redirect:/login";
+    }
+
 }

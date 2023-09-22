@@ -1,5 +1,7 @@
 package com.example.carrentalproject.model;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -23,9 +25,10 @@ public class User {
     private String type = "user";
     @NotBlank
     @Email
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Size(min = 5, max = 32)
+    @Size(min = 4, max = 32)
     private String password;
 
     public User() {
