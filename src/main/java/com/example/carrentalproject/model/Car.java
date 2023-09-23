@@ -50,8 +50,17 @@ public class Car {
     @Size(min = 17, max = 17)
     @Column(length = 17)
     private String vin;
+    private double ratingAverage;
 
     public Car() {
+    }
+
+    public double getRatingAverage() {
+        return ratingAverage;
+    }
+
+    public void setRatingAverage(double ratingAverage) {
+        this.ratingAverage = ratingAverage;
     }
 
     public String getFullName() {
