@@ -31,7 +31,7 @@ public class Rent {
     private Department takingPlace;
     @NotBlank
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String returnDate;
+    private LocalDate returnDate;
     @NotNull
     @ManyToOne
     private Department returningPlace;
@@ -90,11 +90,11 @@ public class Rent {
         this.takingPlace = takingPlace;
     }
 
-    public String getReturnDate() {
+    public LocalDate getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(String returnDate) {
+    public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
     }
 
