@@ -31,7 +31,7 @@ public class UserDashboardController {
 //        model.addAttribute("lastFive", rentRepository.findLast5ByCustomer(user));
         model.addAttribute("user", user);
 
-        return "user/dashboard";
+        return "acc-user/dashboard";
     }
 
     @RequestMapping("/logout")
@@ -48,7 +48,7 @@ public class UserDashboardController {
         User user = (User) session.getAttribute("user");
         Optional<User> userOptional = userRepository.findById(user.getId());
         userOptional.ifPresent(u -> model.addAttribute("user", u));
-        return "user/edit-data";
+        return "acc-user/edit-data";
     }
 
     @PostMapping("/edit/data")
@@ -66,7 +66,7 @@ public class UserDashboardController {
         if (session.getAttribute("user") == null) {
             return "redirect:/login";
         }
-        return "user/edit-password";
+        return "acc-user/edit-password";
     }
 
     @PostMapping("/edit/password")

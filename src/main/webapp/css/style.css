@@ -126,3 +126,28 @@ a {
     color: yellow;
 }
 
+/*Tabela*/
+
+ table, tr, td {
+     border:3px solid black;
+     border-collapse: collapse;
+     background-color: #ffc;
+     padding: 5px;
+ }
+
+tr, td {
+    padding: 20px 30px;
+}
+
+/*add new car button*/
+
+div.add-new-car{
+    display: flex;
+    width: 120px;
+    height: 65px;
+    background-color: royalblue;
+    color: wheat;
+    margin: 20px;
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+}
