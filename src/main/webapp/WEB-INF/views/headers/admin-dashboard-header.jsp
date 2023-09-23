@@ -7,7 +7,7 @@
             <br>
             <li class="menu-list dashboard-list"><a href="/admin/dashboard">▶ Dashboard</a></li>
             <li class="menu-list"><a href="/admin/cars">▶ Zarządzaj flotą</a></li>
-            <li class="menu-list"><a href="#">▶ Zarządzaj oddziałami</a></li>
+            <li class="menu-list"><a href="/admin/departments">▶ Zarządzaj oddziałami</a></li>
             <li class="menu-list"><a href="#">▶ Zarządzaj użytkownikami</a></li>
             <li class="menu-list"><a href="">▶ Zarządzaj opiniami</a></li>
             <li class="menu-list"><a href="">▶ Zarządzaj wypożyczeniami</a></li>
