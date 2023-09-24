@@ -38,6 +38,7 @@
                 <th scope="col">Mileage</th>
                 <th scope="col">Next Inspection</th>
                 <th scope="col">Next Insurance</th>
+                <th scope="col">Średnia ocen</th>
                 <th scope="col">Action</th>
 
             </tr>
@@ -56,6 +57,7 @@
                     <td>${car.mileage}</td>
                     <td>${car.nextInspection}</td>
                     <td>${car.nextInsurance}</td>
+                    <td>${car.ratingAverage}</td>
                     <td>
                         <a href="/admin/car/delete?id=${car.id}" id="deleteButton" data-toggle="modal"
                            data-target="#deleteMessage">

@@ -15,7 +15,7 @@
     <%@ include file="../headers/admin-dashboard-header.jsp" %>
 
     <div class="content">
-        <h1>CONTENT</h1>
+        <h1>Witaj potężny Adminie</h1>
     </div>
 </div>
 

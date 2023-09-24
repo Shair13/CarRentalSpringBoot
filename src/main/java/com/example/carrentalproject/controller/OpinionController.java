@@ -77,7 +77,7 @@ public class OpinionController {
     }
 
     @RequestMapping("/opinions/bycar/details")
-    public String showOpinionsByCarDetails(Model model,@RequestParam Long id) {
+    public String showOpinionsByCarDetails(Model model, @RequestParam Long id) {
         Car car = carRepository.findById(id).get();
         model.addAttribute("opinions", opinionRepository.findAllByCar(car));
         return "opinion/opinion-bycar-details";
@@ -96,6 +96,7 @@ public class OpinionController {
             return "opinion/opinion-edit-form";
         }
         opinionRepository.save(opinion);
+        ratingAverageRefresh(opinion);
         return "redirect:/admin/opinions";
     }
 
@@ -103,7 +104,23 @@ public class OpinionController {
     public String deleteOpinion(@RequestParam Long id) {
         Optional<Opinion> opinionOptional = opinionRepository.findById(id);
         opinionOptional.ifPresent(opinionRepository::delete);
+        ratingAverageRefresh(opinionOptional.get());
         return "redirect:/admin/opinions";
+    }
+
+    public void ratingAverageRefresh(Opinion opinion) {
+        List<Integer> allRatings = opinionRepository.findAllByCar(opinion.getCar())
+                .stream()
+                .map(Opinion::getRating)
+                .toList();
+
+        double avgRating = allRatings.stream()
+                .mapToInt(Integer::intValue)
+                .average()
+                .orElse(0.0); // Ustawiam 0.0 jeżeli lista jest pusta
+
+
+        carRepository.updateAvgRating(avgRating, opinion.getCar().getId());
     }
 
     @ModelAttribute("users")

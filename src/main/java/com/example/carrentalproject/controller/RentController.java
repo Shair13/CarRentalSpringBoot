@@ -8,6 +8,8 @@ import com.example.carrentalproject.repository.CarRepository;
 import com.example.carrentalproject.repository.DepartmentRepository;
 import com.example.carrentalproject.repository.RentRepository;
 import com.example.carrentalproject.repository.UserRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,11 +21,12 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("rent")
+@RequestMapping("/admin")
 @SessionAttributes("user")
 public class RentController {
 
@@ -41,84 +44,107 @@ public class RentController {
 
     // Crud dla użytkownika
 
-    @GetMapping("/udashboard")
-    public String displayUserAddForm(Model model) {
-        model.addAttribute("rent", new Rent());
-        return "";
-    }
-
-    @PostMapping("/udashboard")
-    public String processUserAddForm(@Valid Rent rent, HttpSession session, BindingResult bindingResult) {
-        if (session.getAttribute("user") == null) {
-            return "";
-        }
-        if (bindingResult.hasErrors()) {
-            return "";
-        }
-        User user = (User) session.getAttribute("user");
-        rent.setCustomer(user);
-        rent.setPrice(priceToPay(rent));
-        rentRepository.save(rent);
-        return "";
-    }
-
-    @RequestMapping("/udashboard/all")
-    public String showAllUserRentals(Model model, HttpSession session) {
-        if (session.getAttribute("user") == null) {
-            return "redirect:/login";
-        }
-        User user = (User) session.getAttribute("user");
-        model.addAttribute("rentals", rentRepository.findAllByCustomerOrderByIdDesc(user));
-        return "";
-    }
+//    @GetMapping("/udashboard")
+//    public String displayUserAddForm(Model model) {
+//        model.addAttribute("rent", new Rent());
+//        return "";
+//    }
+//
+//    @PostMapping("/udashboard")
+//    public String processUserAddForm(@Valid Rent rent, HttpSession session, BindingResult bindingResult) {
+//        if (session.getAttribute("user") == null) {
+//            return "";
+//        }
+//        if (bindingResult.hasErrors()) {
+//            return "";
+//        }
+//        User user = (User) session.getAttribute("user");
+//        rent.setCustomer(user);
+//        rent.setPrice(priceToPay(rent));
+//        rentRepository.save(rent);
+//        return "";
+//    }
+//
+//    @RequestMapping("/udashboard/all")
+//    public String showAllUserRentals(Model model, HttpSession session) {
+//        if (session.getAttribute("user") == null) {
+//            return "redirect:/login";
+//        }
+//        User user = (User) session.getAttribute("user");
+//        model.addAttribute("rentals", rentRepository.findAllByCustomerOrderByIdDesc(user));
+//        return "";
+//    }
 
 
     // CRUD ogólnego dostępu
 
-    @GetMapping("/add")
+    @GetMapping("/rent/add")
     public String displayAddForm(Model model) {
         model.addAttribute("rent", new Rent());
-        return "";
+        return "rent/rent-add-form";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/rent/add")
     public String processAddForm(@Valid Rent rent, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "redirect:/rent/add";
+            return "rent/rent-add-form";
         }
+        carRepository.updateCarStatus("reserved", rent.getCar().getId());
         rent.setPrice(priceToPay(rent));
         rentRepository.save(rent);
-        return "";
+        return "redirect:/admin/rentals";
     }
 
-    @RequestMapping("/showAll")
-    public String showAllRentals(Model model) {
-        model.addAttribute("rentals", rentRepository.findAll());
-        return "";
+    @GetMapping("/rent/end")
+    public String displayEndRentingForm(Model model, @RequestParam Long rentId) {
+        Optional<Rent> rentOptional = rentRepository.findById(rentId);
+        rentOptional.ifPresent(r -> model.addAttribute("rent", r));
+        return "rent/rent-end-form";
     }
 
-    @GetMapping("/update")
+    @PostMapping("/rent/end")
+    public String processEndRentingForm(@Valid Rent rent, @RequestParam int mileage, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "rent/rent-end-form";
+        }
+        if (mileage <= rent.getCar().getMileage()) {
+            return "rent/rent-end-form";
+        }
+        rentRepository.updateStatus("ended", rent.getId());
+        carRepository.updateCarStatusAndMileage("available", mileage, rent.getCar().getId());
+        return "redirect:/admin/rentals";
+    }
+
+    @RequestMapping("/rentals")
+    public String showAllRentals(Model model, @RequestParam(defaultValue = "0") int page) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        PageRequest pageable = PageRequest.of(page, 50, sort);
+        model.addAttribute("rentals", rentRepository.findAll(pageable));
+        return "rent/rent-list";
+    }
+
+    @GetMapping("/rent/edit")
     public String displayUpdateForm(@RequestParam Long id, Model model) {
         Optional<Rent> rentOptional = rentRepository.findById(id);
         rentOptional.ifPresent(r -> model.addAttribute("rent", r));
-        return "";
+        return "rent/rent-edit-form";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/rent/edit")
     public String processUpdateForm(@Valid Rent rent, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "";
+            return "rent/rent-edit-form";
         }
         rent.setPrice(priceToPay(rent));
         rentRepository.save(rent);
-        return "";
+        return "redirect:/admin/rentals";
     }
 
-    @RequestMapping("/delete")
+    @RequestMapping("/rent/delete")
     public String deleteRent(@RequestParam Long id) {
         Optional<Rent> rentOptional = rentRepository.findById(id);
         rentOptional.ifPresent(rentRepository::delete);
-        return "";
+        return "redirect:/admin/rentals";
     }
 
     public double priceToPay(Rent rent) {
@@ -149,4 +175,16 @@ public class RentController {
         return carRepository.findAll();
     }
 
+    @ModelAttribute("freeCars")
+    public List<Car> getAllAvailableCars() {
+        return carRepository.findByStatusContains("available");
+    }
+
+    @ModelAttribute("rentStatuses")
+    public List<String> getRentStatuses() {
+        List<String> statuses = new ArrayList<>();
+        statuses.add("process");
+        statuses.add("ended");
+        return statuses;
+    }
 }

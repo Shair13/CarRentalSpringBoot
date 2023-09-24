@@ -74,12 +74,12 @@ public class CarController {
         return "redirect:/admin/cars";
     }
 
-//    @RequestMapping("/car/details")
-//    public String carDetails(@RequestParam Long id, Model model){
-//        Optional<Car> carOptional = carRepository.findById(id);
-//        carOptional.ifPresent(c -> model.addAttribute("car", c));
-//        return "";
-//    }
+    @RequestMapping("/car/details")
+    public String carDetails(@RequestParam Long id, Model model){
+        Optional<Car> carOptional = carRepository.findById(id);
+        carOptional.ifPresent(c -> model.addAttribute("car", c));
+        return "car/car-admin-details";
+    }
 
     @ModelAttribute("types")
     public List<String> types(){

@@ -1,5 +1,6 @@
 package com.example.carrentalproject.controller;
 
+import com.example.carrentalproject.model.Car;
 import com.example.carrentalproject.model.Department;
 import com.example.carrentalproject.repository.DepartmentRepository;
 import org.springframework.data.domain.PageRequest;
@@ -45,6 +46,13 @@ public class DepartmentController {
         PageRequest pageable = PageRequest.of(page, 10);
         model.addAttribute("departments", departmentRepository.findAll(pageable));
         return "department/department-list";
+    }
+
+    @RequestMapping("/department/details")
+    public String carDetails(@RequestParam Long id, Model model){
+        Optional<Department> carOptional = departmentRepository.findById(id);
+        carOptional.ifPresent(d -> model.addAttribute("dep", d));
+        return "department/department-admin-details";
     }
 
     @GetMapping("/department/edit")

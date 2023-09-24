@@ -23,13 +23,13 @@ public class Rent {
     @NotNull
     @ManyToOne
     private Car car;
-    @NotBlank
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
     @NotNull
     @ManyToOne
     private Department takingPlace;
-    @NotBlank
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate returnDate;
     @NotNull
@@ -37,10 +37,19 @@ public class Rent {
     private Department returningPlace;
     @Min(value = 0)
     private double price;
+    private String status = "process";
 
     public Rent() {
     }
 
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
