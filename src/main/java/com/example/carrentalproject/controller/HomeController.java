@@ -62,14 +62,16 @@ public class HomeController {
             model.addAttribute("user", user);
             return "redirect:/user/dashboard";
         }
-        if (typeOfUser.equals("employee") && user.getPassword().equals(password)) {
-            return "";
-        }
+//        if (typeOfUser.equals("employee") && user.getPassword().equals(password)) {
+//            return "";
+//        }
         if ("admin".equals(typeOfUser) && user.getPassword().equals(password)) {
             model.addAttribute("user", user);
             return "redirect:/admin/dashboard";
         }
         return "redirect:/login";
     }
+
+
 
 }

@@ -17,6 +17,19 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             nativeQuery = true)
     void updateAvgRating(double avgRating, Long id);
 
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE cars SET status = ?1 WHERE id = ?2",
+            nativeQuery = true)
+    void updateCarStatus(String status, Long id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE cars SET status = ?1, mileage = ?2 WHERE id = ?3",
+            nativeQuery = true)
+    void updateCarStatusAndMileage(String status, int mileage, Long id);
+
     List<Car> findByRatingAverageGreaterThan(double avg);
+    List<Car> findByStatusContains(String status);
 
 }

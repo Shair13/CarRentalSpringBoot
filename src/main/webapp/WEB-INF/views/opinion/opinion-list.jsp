@@ -45,8 +45,8 @@
                     <td>${opinion.car.fullName}</td>
                     <td>${opinion.content}</td>
                     <td>${opinion.rating} / 5</td>
-                    <td><a href="/opinion/delete?id=${opinion.id}"><button type="button" class="btn btn-outline-danger">Usuń</button></a>
-                        <a href="/opinion/update?id=${opinion.id}"><button type="button" class="btn btn-outline-warning">Aktualizuj</button></a></td>
+                    <td><a href="/admin/opinion/delete?id=${opinion.id}"><button type="button" class="btn btn-outline-danger">Usuń</button></a>
+                        <a href="/admin/opinion/edit?id=${opinion.id}"><button type="button" class="btn btn-outline-warning">Edytuj</button></a></td>
                 </tr>
             </c:forEach>
 

@@ -4,6 +4,8 @@ import com.example.carrentalproject.model.Car;
 import com.example.carrentalproject.repository.CarRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,7 +44,8 @@ public class CarController {
 
     @RequestMapping("/cars")
     public String showAllCars(Model model, @RequestParam(defaultValue = "0") int page){
-        PageRequest pageable = PageRequest.of(page, 10);
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        PageRequest pageable = PageRequest.of(page, 10, sort);
         model.addAttribute("cars", carRepository.findAll(pageable));
         return "car/car-list";
     }
@@ -71,12 +74,12 @@ public class CarController {
         return "redirect:/admin/cars";
     }
 
-//    @RequestMapping("/car/details")
-//    public String carDetails(@RequestParam Long id, Model model){
-//        Optional<Car> carOptional = carRepository.findById(id);
-//        carOptional.ifPresent(c -> model.addAttribute("car", c));
-//        return "";
-//    }
+    @RequestMapping("/car/details")
+    public String carDetails(@RequestParam Long id, Model model){
+        Optional<Car> carOptional = carRepository.findById(id);
+        carOptional.ifPresent(c -> model.addAttribute("car", c));
+        return "car/car-admin-details";
+    }
 
     @ModelAttribute("types")
     public List<String> types(){
