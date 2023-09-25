@@ -142,6 +142,15 @@ public class HomeController {
 
     }
 
+    @RequestMapping("/available")
+    public String availableCars(Model model, @RequestParam(defaultValue = "0") int page){
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        PageRequest pageable = PageRequest.of(page, 20, sort);
+        model.addAttribute("available", carRepository.findByStatusContains("available", pageable));
+        return "home/available";
+    }
+
+    // ***
 
     @ModelAttribute("rating")
     public List<Integer> getRatingArr() {

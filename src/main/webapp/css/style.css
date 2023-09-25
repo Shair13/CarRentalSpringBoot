@@ -170,6 +170,22 @@ div.add-new-car{
     display: flex;
 }
 
+.fleet-container2{
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 50px;
+    width: 100%;
+    height: 100px;
+    background-color: whitesmoke;
+    display: flex;
+}
+
+a.registration{
+    color: orangered;
+}
+
 .car-opinion-container{
     justify-content: center; /* Wyśrodkowanie w poziomie */
     align-items: center; /* Wyśrodkowanie w pionie */

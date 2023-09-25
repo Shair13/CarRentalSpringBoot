@@ -1,6 +1,9 @@
 package com.example.carrentalproject.repository;
 
 import com.example.carrentalproject.model.Car;
+import com.example.carrentalproject.model.Opinion;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -31,5 +34,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
     List<Car> findByRatingAverageGreaterThan(double avg);
     List<Car> findByStatusContains(String status);
+
+    List<Car> findByStatusContains(String status, PageRequest request);
 
 }
