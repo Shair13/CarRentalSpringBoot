@@ -43,7 +43,7 @@ public class HomeController {
 
     @GetMapping(path = "/registration")
     public String displayAddForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("registration", new User());
         return "home/registration";
     }
 

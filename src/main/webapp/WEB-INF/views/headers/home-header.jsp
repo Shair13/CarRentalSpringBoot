@@ -14,7 +14,7 @@
         <a href="/fleet">
             <div class="menu-element">Nasza flota</div>
         </a>
-        <a href="#">
+        <a href="/login">
             <div class="menu-element">Zarezerwuj samochód</div>
         </a>
         <a href="/contact">

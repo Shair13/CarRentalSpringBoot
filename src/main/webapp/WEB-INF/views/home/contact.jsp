@@ -8,7 +8,7 @@
 
 <%@ include file="../headers/home-header.jsp" %>
 
-<div >
+<div>
     <h3>Phone numbers & e-mail addresses.</h3>
     <br>
     <br>

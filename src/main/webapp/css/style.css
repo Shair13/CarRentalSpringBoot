@@ -189,3 +189,8 @@ div.add-new-car{
     background-color: blue;
     display: flex;
 }
+
+.margin-left{
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    margin-left: 100px;
+}

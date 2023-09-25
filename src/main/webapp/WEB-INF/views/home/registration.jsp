@@ -9,7 +9,7 @@
 <%@ include file="../headers/home-header.jsp" %>
 
 <div class="content">
-    <form:form method="post" modelAttribute="user" id="userForm">
+    <form:form method="post" modelAttribute="registration" id="userForm">
         <h1 class="h3 mb-3 fw-normal">Registration</h1> <br>
         <form:hidden path="id"/>
         <div class="form-floating">

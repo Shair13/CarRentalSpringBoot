@@ -57,7 +57,11 @@ public class OpinionController {
                 .average()
                 .orElse(0.0); // Ustawiam 0.0 jeżeli lista jest pusta
 
-        carRepository.updateAvgRating(avgRating, opinion.getCar().getId());
+        String avgToString = avgRating + "0";
+        String edit = avgToString.substring(0, 4);
+        double result = Double.parseDouble(edit);
+
+        carRepository.updateAvgRating(result, opinion.getCar().getId());
         opinionRepository.save(opinion);
         return "redirect:/admin/opinions";
     }
@@ -119,8 +123,11 @@ public class OpinionController {
                 .average()
                 .orElse(0.0); // Ustawiam 0.0 jeżeli lista jest pusta
 
+        String avgToString = avgRating + "0";
+        String edit = avgToString.substring(0, 4);
+        double result = Double.parseDouble(edit);
 
-        carRepository.updateAvgRating(avgRating, opinion.getCar().getId());
+        carRepository.updateAvgRating(result, opinion.getCar().getId());
     }
 
     @ModelAttribute("users")
