@@ -121,6 +121,12 @@ public class UserController {
         return "/user/user-list";
     }
 
+    @PostMapping("/search")
+    public String findUserByEmail(@RequestParam String search, Model model){
+        model.addAttribute("users", userRepository.findByEmailContaining(search));
+        return "/user/user-search-list";
+    }
+
     @RequestMapping("/user/delete")
     public String deleteUser(@RequestParam Long id) {
         Optional<User> userOptional = userRepository.findById(id);

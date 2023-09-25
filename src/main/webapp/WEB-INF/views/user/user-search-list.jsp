@@ -16,10 +16,10 @@
 
     <div class="content">
 
-        <form action="/admin/search" method="post">
-            <input type="text" name="search">
-            <input type="submit" value="Szukaj">
-        </form>
+        <a class="button-add-car" href="/admin/users">
+            <div class="add-new-car">Cofnij</div>
+        </a>
+
 
         <a class="button-add-car" href="/admin/user/add">
             <div class="add-new-car">Dodaj użytkownika</div>
@@ -37,7 +37,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${users.content}" var="user">
+            <c:forEach items="${users}" var="user">
                 <tr>
                     <th scope="row">${user.id}</th>
                     <td>${user.firstName}</td>
@@ -56,15 +56,6 @@
             </c:forEach>
             </tbody>
         </table>
-    </div>
-    <div class="pagination">
-        <c:if test="${users.totalPages > 1}">
-            <c:forEach begin="0" end="${users.totalPages - 1}" varStatus="page">
-                <a href="?page=${page.index}">
-                    <div class="add-new-car">${page.index + 1}</div>
-                </a>
-            </c:forEach>
-        </c:if>
     </div>
 </div>
 
