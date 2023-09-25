@@ -12,7 +12,7 @@
             <li class="menu-list"><a href="/admin/opinions">▶ Zarządzaj opiniami</a></li>
             <li class="menu-list"><a href="/admin/rentals">▶ Zarządzaj wypożyczeniami</a></li>
             <br>
-            <li class="menu-list"><a href="">▶ Wyloguj</a></li>
+            <li class="menu-list"><a href="/admin/logout">▶ Wyloguj</a></li>
         </ul>
     </div>
     <div>

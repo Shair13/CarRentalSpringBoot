@@ -1,10 +1,10 @@
 package com.example.carrentalproject.controller;
 
 import com.example.carrentalproject.model.Car;
+import com.example.carrentalproject.model.Opinion;
 import com.example.carrentalproject.repository.CarRepository;
-import org.springframework.data.domain.Page;
+import com.example.carrentalproject.repository.OpinionRepository;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +22,11 @@ import java.util.Optional;
 public class CarController {
 
     private final CarRepository carRepository;
+    private final OpinionRepository opinionRepository;
 
-    public CarController(CarRepository carRepository) {
+    public CarController(CarRepository carRepository, OpinionRepository opinionRepository) {
         this.carRepository = carRepository;
+        this.opinionRepository = opinionRepository;
     }
 
     @GetMapping("/car/add")
@@ -64,6 +66,21 @@ public class CarController {
             return "car/car-edit-form";
         }
         carRepository.save(car);
+        List<Integer> allRatings = opinionRepository.findAllByCar(car)
+                .stream()
+                .map(Opinion::getRating)
+                .toList();
+
+        double avgRating = allRatings.stream()
+                .mapToInt(Integer::intValue)
+                .average()
+                .orElse(0.0); // Ustawiam 0.0 jeżeli lista jest pusta
+
+        String avgToString = avgRating + "0";
+        String edit = avgToString.substring(0, 4);
+        double result = Double.parseDouble(edit);
+
+        carRepository.updateAvgRating(result, car.getId());
         return "redirect:/admin/cars";
     }
 

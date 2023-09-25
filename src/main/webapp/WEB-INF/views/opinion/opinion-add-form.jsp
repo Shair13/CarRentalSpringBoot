@@ -41,7 +41,7 @@
                     <form:option value="0" label="--Ocena--"/>
                     <form:options items="${rating}" type="number"/>
                 </form:select>
-                <label for="floatingCar">Ocena</label>
+                <label for="floatingRating">Ocena</label>
             </div><br>
             <button class="btn btn-primary w-100 py-2" type="submit">Dodaj</button>
             <div id="error-message" class="alert alert-danger d-none"></div>
