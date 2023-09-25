@@ -135,6 +135,13 @@ public class HomeController {
         return "redirect:/opinions?carId=" + opinion.getCar().getId();
     }
 
+    @RequestMapping("/contact")
+    public String showContactPage(Model model){
+        model.addAttribute("CEO", userRepository.findAllByType("admin"));
+        return "home/contact";
+
+    }
+
 
     @ModelAttribute("rating")
     public List<Integer> getRatingArr() {
@@ -146,6 +153,8 @@ public class HomeController {
         rating.add(5);
         return rating;
     }
+
+
 
 
 }

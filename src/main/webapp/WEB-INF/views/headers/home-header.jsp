@@ -17,7 +17,7 @@
         <a href="#">
             <div class="menu-element">Zarezerwuj samochód</div>
         </a>
-        <a href="#">
+        <a href="/contact">
             <div class="menu-element">Kontakt</div>
         </a>
     </nav>
