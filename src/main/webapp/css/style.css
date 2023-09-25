@@ -151,3 +151,41 @@ div.add-new-car{
     justify-content: center; /* Wyśrodkowanie w poziomie */
     align-items: center; /* Wyśrodkowanie w pionie */
 }
+
+/*fleet*/
+
+.cont{
+    width: 100%;
+}
+
+.fleet-container{
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 50px;
+    width: 100%;
+    height: 200px;
+    background-color: royalblue;
+    display: flex;
+}
+
+.car-opinion-container{
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 50px;
+    width: 100%;
+    background-color: greenyellow;
+    display: flex;
+}
+
+.fleet-button {
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    width: 80px;
+    height: 35px;
+    background-color: blue;
+    display: flex;
+}

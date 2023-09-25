@@ -43,6 +43,13 @@ public class Opinion {
         this.updated = updated;
     }
 
+    public String getCreated() {
+        return created;
+    }
+
+    public String getUpdated() {
+        return updated;
+    }
 
     public Opinion() {
     }
