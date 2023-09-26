@@ -67,12 +67,13 @@
                 <label for="floatingVin">VIN</label>
             </div><br>
             <button class="btn btn-primary w-100 py-2" type="submit">Add</button>
-            <div id="error-message" class="alert alert-danger d-none"></div>
+            <div id="error-message" class="error d-none"></div>
         </form:form>
     </div>
 </div>
 
 <%@ include file="../headers/footer.jsp" %>
+<script src="/js/validation.js"></script>
 
 </body>
 </html>

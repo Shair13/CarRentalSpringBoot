@@ -9,7 +9,7 @@
 <%@ include file="../headers/home-header.jsp" %>
 
 <div class="content">
-    <form:form method="post" modelAttribute="registration" id="userForm">
+    <form:form method="post" modelAttribute="registration" id="userAdminAddForm">
         <h1 class="h3 mb-3 fw-normal">Registration</h1> <br>
         <form:hidden path="id"/>
         <div class="form-floating">
@@ -38,11 +38,13 @@
         </div>
         <br>
         <button class="btn btn-primary w-100 py-2" type="submit">Register</button>
-        <div id="error-message" class="alert alert-danger d-none"></div>
+        <div id="error-message" class="error d-none"></div>
     </form:form>
 </div>
 
 <%@ include file="../headers/home-footer.jsp" %>
+<script src="/js/validation.js"></script>
+
 
 </body>
 </html>

@@ -8,8 +8,8 @@ const repeatPasswordInput = document.querySelector('input#floatingRepeatPassword
 //errors
 const errorMessage = document.querySelector('div#error-message');
 //car add & update
-const carBrandInput = document.querySelector("input#floatingBrand");
-const carModelInput = document.querySelector("input#floatingModel");
+const carBrandInput = document.querySelector('input#floatingBrand');
+const carModelInput = document.querySelector('input#floatingModel');
 const carTypeSelect = document.querySelector("#floatingType");
 const carProductionInput = document.querySelector("input#floatingProdDate");
 const carPlatesInput = document.querySelector("input#floatingPlates");
@@ -23,7 +23,32 @@ const carAddForm = document.querySelector('#carAddForm');
 const carUpdateForm = document.querySelector('#carUpdateForm')
 const carStatusInput = document.querySelector("input#floatingStatus");
 
-//ADMIN user add validation
+const loginForm = document.querySelector('form#loginForm');
+
+if(loginForm !== null){
+    loginForm.addEventListener('submit', onLoginFormSubmission);
+
+    function onLoginFormSubmission(event){
+        const errors = [];
+
+        if (!emailInput.value.includes('@')) {
+            errors.push('Email musi posiadać znak @');
+        }
+
+        if (passwordInput.value.length === 0) {
+            errors.push("Podaj hasło!");
+        }
+        if (errors.length === 0) {
+            errorMessage.classList.add("d-none");
+        } else {
+            errorMessage.innerText = errors.join(", ");
+            errorMessage.classList.remove("d-none");
+            event.preventDefault();
+        }
+    }
+}
+
+//ADMIN user add validation + registration
 if (userAdminAddForm !== null) {
     userAdminAddForm.addEventListener('submit', onUserFormSubmission);
 

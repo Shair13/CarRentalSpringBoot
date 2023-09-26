@@ -12,6 +12,7 @@
             </a>
         </c:if>
         <a href="/fleet">
+
             <div class="menu-element">Nasza flota</div>
         </a>
         <a href="/available">

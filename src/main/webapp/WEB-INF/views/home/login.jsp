@@ -9,11 +9,11 @@
 <%@ include file="../headers/home-header.jsp" %>
 
 <div class="content">
-        <form method="post">
+        <form method="post" id="loginForm">
             <h1>Logowanie</h1> <br>
             <div class="form-floating">
-                <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                <label for="floatingInput">Email address</label>
+                <input type="email" name="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
+                <label for="floatingEmail">Email address</label>
             </div>
             <br>
             <div class="form-floating">
@@ -22,11 +22,13 @@
             </div>
             <br>
             <input type="submit" value="OK">
+            <div id="error-message" class="error d-none"></div>
         </form>
     </main>
 </div>
 
 <%@ include file="../headers/home-footer.jsp" %>
+<script src="/js/validation.js"></script>
 
 </body>
 </html>
