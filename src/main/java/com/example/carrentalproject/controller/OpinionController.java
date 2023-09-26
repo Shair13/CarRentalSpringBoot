@@ -37,6 +37,7 @@ public class OpinionController {
     @GetMapping("/opinion/add")
     public String displayAddForm(Model model) {
         model.addAttribute("opinion", new Opinion());
+        model.addAttribute("rating", ratingService.getRatingList());
         return "opinion/opinion-add-form";
     }
 
@@ -75,6 +76,7 @@ public class OpinionController {
     public String displayUpdateForm(@RequestParam Long id, Model model) {
         Optional<Opinion> opinionOptional = opinionRepository.findById(id);
         opinionOptional.ifPresent(o -> model.addAttribute("opinion", o));
+        model.addAttribute("rating", ratingService.getRatingList());
         return "opinion/opinion-edit-form";
     }
 
@@ -106,16 +108,5 @@ public class OpinionController {
     @ModelAttribute("cars")
     public List<Car> getCarList() {
         return carRepository.findAll();
-    }
-
-    @ModelAttribute("rating")
-    public List<Integer> getRatingArr() {
-        List<Integer> rating = new ArrayList<>();
-        rating.add(1);
-        rating.add(2);
-        rating.add(3);
-        rating.add(4);
-        rating.add(5);
-        return rating;
     }
 }

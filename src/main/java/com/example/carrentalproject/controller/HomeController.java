@@ -104,7 +104,7 @@ public class HomeController {
             User user = (User) session.getAttribute("user");
             newOpinion.setUser(user);
         }
-
+        model.addAttribute("rating", ratingService.getRatingList());
         model.addAttribute("opinions", opinionRepository.findAllByCar(carOptional.get(), Sort.by(Sort.Order.desc("id"))));
         model.addAttribute("opinion", newOpinion);
         return "home/opinions-to-car";
@@ -133,18 +133,5 @@ public class HomeController {
         PageRequest pageable = PageRequest.of(page, 20, sort);
         model.addAttribute("available", carRepository.findByStatusContains("available", pageable));
         return "home/available";
-    }
-
-    // ***
-
-    @ModelAttribute("rating")
-    public List<Integer> getRatingArr() {
-        List<Integer> rating = new ArrayList<>();
-        rating.add(1);
-        rating.add(2);
-        rating.add(3);
-        rating.add(4);
-        rating.add(5);
-        return rating;
     }
 }

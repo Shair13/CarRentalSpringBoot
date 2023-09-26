@@ -58,7 +58,7 @@ public class RatingService {
         carRepository.updateAvgRating(result, car.getId());
     }
 
-    public List<Integer> getRatingArr() {
+    public List<Integer> getRatingList() {
         List<Integer> rating = new ArrayList<>();
         rating.add(1);
         rating.add(2);
@@ -67,5 +67,4 @@ public class RatingService {
         rating.add(5);
         return rating;
     }
-
 }

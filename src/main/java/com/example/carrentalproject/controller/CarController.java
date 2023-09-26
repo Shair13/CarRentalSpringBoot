@@ -103,5 +103,4 @@ public class CarController {
         statuses.add("available");
         return statuses;
     }
-
 }
