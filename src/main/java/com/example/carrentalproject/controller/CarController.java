@@ -1,9 +1,10 @@
 package com.example.carrentalproject.controller;
 
 import com.example.carrentalproject.model.Car;
-import com.example.carrentalproject.model.Opinion;
+import com.example.carrentalproject.model.TypeOfCar;
 import com.example.carrentalproject.repository.CarRepository;
-import com.example.carrentalproject.repository.OpinionRepository;
+import com.example.carrentalproject.repository.TypeOfCarRepository;
+import com.example.carrentalproject.services.RatingService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -22,11 +23,13 @@ import java.util.Optional;
 public class CarController {
 
     private final CarRepository carRepository;
-    private final OpinionRepository opinionRepository;
+    private final RatingService ratingService;
+    private final TypeOfCarRepository typeOfCarRepository;
 
-    public CarController(CarRepository carRepository, OpinionRepository opinionRepository) {
+    public CarController(CarRepository carRepository, RatingService ratingService, TypeOfCarRepository typeOfCarRepository) {
         this.carRepository = carRepository;
-        this.opinionRepository = opinionRepository;
+        this.ratingService = ratingService;
+        this.typeOfCarRepository = typeOfCarRepository;
     }
 
     @GetMapping("/car/add")
@@ -66,28 +69,17 @@ public class CarController {
             return "car/car-edit-form";
         }
         carRepository.save(car);
-        List<Integer> allRatings = opinionRepository.findAllByCar(car)
-                .stream()
-                .map(Opinion::getRating)
-                .toList();
-
-        double avgRating = allRatings.stream()
-                .mapToInt(Integer::intValue)
-                .average()
-                .orElse(0.0); // Ustawiam 0.0 jeżeli lista jest pusta
-
-        String avgToString = avgRating + "0";
-        String edit = avgToString.substring(0, 4);
-        double result = Double.parseDouble(edit);
-
-        carRepository.updateAvgRating(result, car.getId());
+        ratingService.ratingAverageRefreshByCar(car);
         return "redirect:/admin/cars";
     }
 
     @RequestMapping("/car/delete")
     public String deleteCar(@RequestParam Long id){
         Optional<Car> carOptional = carRepository.findById(id);
-        carOptional.ifPresent(carRepository::delete);
+        carOptional.ifPresent(c -> {
+            carRepository.delete(c);
+            ratingService.ratingAverageRefreshByCar(c);
+        });
         return "redirect:/admin/cars";
     }
 
@@ -99,27 +91,8 @@ public class CarController {
     }
 
     @ModelAttribute("types")
-    public List<String> types(){
-        List<String> types = new ArrayList<>();
-        types.add("Sedan");
-        types.add("Kombi");
-        types.add("SUV");
-        types.add("Coupe");
-        types.add("Kabriolet");
-        types.add("Hatchback");
-        types.add("Elektryczny");
-        types.add("Hybryda");
-        return types;
-//        List<TypeOfCar> types = new ArrayList<>();
-//        types.add(new TypeOfCar(1,"Sedan"));
-//        types.add(new TypeOfCar(2, "Kombi"));
-//        types.add(new TypeOfCar(3, "SUV"));
-//        types.add(new TypeOfCar(4, "Coupe"));
-//        types.add(new TypeOfCar(5, "Kabriolet"));
-//        types.add(new TypeOfCar(6, "Hatchback"));
-//        types.add(new TypeOfCar(7, "Elektryczny"));
-//        types.add(new TypeOfCar(8, "Hybryda"));
-//        return types;
+    public List<TypeOfCar> types(){
+        return typeOfCarRepository.findAll();
     }
 
     @ModelAttribute("statuses")

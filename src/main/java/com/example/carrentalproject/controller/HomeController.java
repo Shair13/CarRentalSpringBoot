@@ -6,6 +6,7 @@ import com.example.carrentalproject.model.User;
 import com.example.carrentalproject.repository.CarRepository;
 import com.example.carrentalproject.repository.OpinionRepository;
 import com.example.carrentalproject.repository.UserRepository;
+import com.example.carrentalproject.services.RatingService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -15,12 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @SessionAttributes("user")
@@ -29,11 +27,13 @@ public class HomeController {
     private final UserRepository userRepository;
     private final CarRepository carRepository;
     private final OpinionRepository opinionRepository;
+    private final RatingService ratingService;
 
-    public HomeController(UserRepository userRepository, CarRepository carRepository, OpinionRepository opinionRepository) {
+    public HomeController(UserRepository userRepository, CarRepository carRepository, OpinionRepository opinionRepository, RatingService ratingService) {
         this.userRepository = userRepository;
         this.carRepository = carRepository;
         this.opinionRepository = opinionRepository;
+        this.ratingService = ratingService;
     }
 
     @RequestMapping("/")
@@ -104,6 +104,7 @@ public class HomeController {
             User user = (User) session.getAttribute("user");
             newOpinion.setUser(user);
         }
+
         model.addAttribute("opinions", opinionRepository.findAllByCar(carOptional.get(), Sort.by(Sort.Order.desc("id"))));
         model.addAttribute("opinion", newOpinion);
         return "home/opinions-to-car";
@@ -114,24 +115,8 @@ public class HomeController {
         if (bindingResult.hasErrors()) {
             return "redirect:/opinions?carId=" + opinion.getCar().getId();
         }
-        List<Integer> allRatings = opinionRepository.findAllByCar(opinion.getCar())
-                .stream()
-                .map(Opinion::getRating)
-                .collect(Collectors.toList());
-
-        allRatings.add(opinion.getRating());
-
-        double avgRating = allRatings.stream()
-                .mapToInt(Integer::intValue)
-                .average()
-                .orElse(0.0); // Ustawiam 0.0 jeżeli lista jest pusta
-
-        String avgToString = avgRating + "0";
-        String edit = avgToString.substring(0, 4);
-        double result = Double.parseDouble(edit);
-
-        carRepository.updateAvgRating(result, opinion.getCar().getId());
         opinionRepository.save(opinion);
+        ratingService.ratingAverageRefreshByOpinion(opinion);
         return "redirect:/opinions?carId=" + opinion.getCar().getId();
     }
 
@@ -162,8 +147,4 @@ public class HomeController {
         rating.add(5);
         return rating;
     }
-
-
-
-
 }

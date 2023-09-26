@@ -28,7 +28,7 @@
             </div><br>
             <div class="form-floating">
                 <form:select path="type" class="form-control" id="floatingType">
-                    <form:options items="${types}"/>
+                    <form:options items="${types}" itemValue="id" itemLabel="type"/>
                 </form:select>
                 <label for="floatingType">Type</label>
             </div><br>
