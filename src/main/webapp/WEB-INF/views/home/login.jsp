@@ -25,5 +25,8 @@
         </form>
     </main>
 </div>
+
+<%@ include file="../headers/home-footer.jsp" %>
+
 </body>
 </html>

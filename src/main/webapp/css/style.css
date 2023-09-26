@@ -16,14 +16,15 @@ header {
     align-content: center;
 }
 
-.header-space{
+.header-space {
     width: 20%;
 }
 
-.login-element{
+.login-element {
     color: dodgerblue;
 }
-.register-element{
+
+.register-element {
     color: yellowgreen;
 }
 
@@ -82,7 +83,7 @@ header {
     align-items: center; /* Wyśrodkowanie w pionie */
 }
 
-.menu-element{
+.menu-element {
     display: flex;
     height: 100%;
     justify-content: center; /* Wyśrodkowanie w poziomie */
@@ -123,17 +124,19 @@ a {
 }
 
 .mouseover {
+    margin-left: 8px;
     color: yellow;
+    justify-content: center; /* Wyśrodkowanie w poziomie */
 }
 
 /*Tabela*/
 
- table, tr, td {
-     border:3px solid black;
-     border-collapse: collapse;
-     background-color: #ffc;
-     padding: 5px;
- }
+table, tr, td {
+    border: 3px solid black;
+    border-collapse: collapse;
+    background-color: #ffc;
+    padding: 5px;
+}
 
 tr, td {
     padding: 20px 30px;
@@ -141,7 +144,7 @@ tr, td {
 
 /*add new car button*/
 
-div.add-new-car{
+div.add-new-car {
     display: flex;
     width: 120px;
     height: 65px;
@@ -154,11 +157,11 @@ div.add-new-car{
 
 /*fleet*/
 
-.cont{
+.cont {
     width: 100%;
 }
 
-.fleet-container{
+.fleet-container {
     justify-content: center; /* Wyśrodkowanie w poziomie */
     align-items: center; /* Wyśrodkowanie w pionie */
     margin-top: 20px;
@@ -170,7 +173,7 @@ div.add-new-car{
     display: flex;
 }
 
-.fleet-container2{
+.fleet-container2 {
     justify-content: center; /* Wyśrodkowanie w poziomie */
     align-items: center; /* Wyśrodkowanie w pionie */
     margin-top: 20px;
@@ -182,11 +185,11 @@ div.add-new-car{
     display: flex;
 }
 
-a.registration{
+a.registration {
     color: orangered;
 }
 
-.car-opinion-container{
+.car-opinion-container {
     justify-content: center; /* Wyśrodkowanie w poziomie */
     align-items: center; /* Wyśrodkowanie w pionie */
     margin-top: 20px;
@@ -206,7 +209,28 @@ a.registration{
     display: flex;
 }
 
-.margin-left{
+.margin-left {
     justify-content: center; /* Wyśrodkowanie w poziomie */
     margin-left: 100px;
+}
+
+div.d-none {
+    display: none;
+}
+
+.error {
+    padding: 15px;
+    margin: 10px;
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center; /* Wyśrodkowanie w pionie */
+    height: 40px;
+}
+
+.mouseover-home{
+    color: orange;
 }

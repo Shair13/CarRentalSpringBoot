@@ -17,5 +17,7 @@
         <h1>${c.fullName} - ${c.email}</h1> <br>
     </c:forEach></div>
 </div>
+<%@ include file="../headers/home-footer.jsp" %>
+
 </body>
 </html>

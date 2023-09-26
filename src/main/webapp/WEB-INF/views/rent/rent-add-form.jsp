@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<%--<script src="/js/dashboard.js"></script>--%>
+<%@ include file="../headers/footer.jsp" %>
 
 </body>
 </html>

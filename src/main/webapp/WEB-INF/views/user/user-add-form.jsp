@@ -15,7 +15,7 @@
     <%@ include file="../headers/admin-dashboard-header.jsp" %>
 
     <div class="content">
-        <form:form method="post" modelAttribute="user" id="userForm">
+        <form:form method="post" modelAttribute="user" id="userAdminAddForm">
         <h1 class="h3 mb-3 fw-normal">Dodaj użytkownika</h1> <br>
         <form:hidden path="id"/>
         <div class="form-floating">
@@ -39,12 +39,13 @@
             <label for="floatingRepeatPassword">powtórz hasło</label>
         </div><br>
         <button class="btn btn-primary w-100 py-2" type="submit">Dodaj</button>
-        <div id="error-message" class="alert alert-danger d-none">
+        <div id="error-message" class="error d-none">
             </form:form>
     </div>
 </div>
 
-<%--<script src="/js/dashboard.js"></script>--%>
+        <%@ include file="../headers/footer.jsp" %>
+        <script src="/js/validation.js"></script>
 
 </body>
 </html>

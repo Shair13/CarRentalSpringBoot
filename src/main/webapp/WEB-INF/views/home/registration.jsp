@@ -41,5 +41,8 @@
         <div id="error-message" class="alert alert-danger d-none"></div>
     </form:form>
 </div>
+
+<%@ include file="../headers/home-footer.jsp" %>
+
 </body>
 </html>

@@ -87,5 +87,8 @@
         </c:if>
     </div>
 </div>
+
+<%@ include file="../headers/home-footer.jsp" %>
+
 </body>
 </html>
