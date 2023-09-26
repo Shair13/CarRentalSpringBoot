@@ -1,4 +1,5 @@
 package com.example.carrentalproject.controller;
+
 import com.example.carrentalproject.model.Department;
 import com.example.carrentalproject.model.User;
 import com.example.carrentalproject.repository.UserRepository;
@@ -25,55 +26,6 @@ public class UserController {
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-//
-//    // User
-//
-//    @GetMapping("udashboard/edit")
-//    public String displayUpdateUserForm(Model model, HttpSession session) {
-//        if (session.getAttribute("user") == null) {
-//            return "redirect:/login";
-//        }
-//        User user = (User) session.getAttribute("user");
-//        Optional<User> userOptional = userRepository.findById(user.getId());
-//        userOptional.ifPresent(u -> model.addAttribute("user", u));
-//        return "user/user-update-form";
-//    }
-//
-//    @PostMapping("/udashboard/edit")
-//    public String processUpdateUserForm(@Valid User user, BindingResult bindingResult, HttpSession session) {
-//        if (bindingResult.hasErrors()) {
-//            return "redirect:/user/udashboard/edit";
-//        }
-//        userRepository.update(user.getFirstName(), user.getLastName(), user.getEmail(), user.getId());
-//        session.setAttribute("user", user);
-//        return "redirect:/udashboard";
-//    }
-//
-//
-//    @GetMapping("udashboard/editpass")
-//    public String displayUpdateUserPassForm(HttpSession session) {
-//        if (session.getAttribute("user") == null) {
-//            return "redirect:/login";
-//        }
-////        User user = (User) session.getAttribute("user");
-////        Optional<User> userOptional = userRepository.findById(user.getId());
-////        userOptional.ifPresent(u -> model.addAttribute("user", u));
-//        return "user/user-update-password-form";
-//    }
-//
-//    @PostMapping("/udashboard/editpass")
-//    public String processUpdateUserPassForm(@RequestParam String pass1,
-//                                            @RequestParam String pass2,
-//                                            HttpSession session) {
-//        if ("".equals(pass1) || !pass1.equals(pass2)){
-//            return "redirect:/user/udashboard/editpass";
-//        }
-//        User user = (User) session.getAttribute("user");
-//        userRepository.updatePassword(pass1, user.getId());
-//        session.setAttribute("user", user);
-//        return "redirect:/udashboard";
-//    }
-
 
     @GetMapping(path = "/user/add")
     public String displayAddForm(Model model) {
@@ -91,7 +43,7 @@ public class UserController {
     }
 
     @RequestMapping("/user/details")
-    public String carDetails(@RequestParam Long id, Model model){
+    public String carDetails(@RequestParam Long id, Model model) {
         Optional<User> carOptional = userRepository.findById(id);
         carOptional.ifPresent(u -> model.addAttribute("user", u));
         return "user/user-admin-details";
@@ -122,7 +74,7 @@ public class UserController {
     }
 
     @PostMapping("/search")
-    public String findUserByEmail(@RequestParam String search, Model model){
+    public String findUserByEmail(@RequestParam String search, Model model) {
         model.addAttribute("users", userRepository.findByEmailContaining(search));
         return "/user/user-search-list";
     }
@@ -135,7 +87,7 @@ public class UserController {
     }
 
     @ModelAttribute("userTypes")
-    public List<String> getTypesOfUser(){
+    public List<String> getTypesOfUser() {
         List<String> types = new ArrayList<>();
         types.add("user");
         types.add("admin");

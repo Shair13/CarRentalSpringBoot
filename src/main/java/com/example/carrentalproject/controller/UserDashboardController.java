@@ -8,6 +8,7 @@ import com.example.carrentalproject.repository.CarRepository;
 import com.example.carrentalproject.repository.DepartmentRepository;
 import com.example.carrentalproject.repository.RentRepository;
 import com.example.carrentalproject.repository.UserRepository;
+import com.example.carrentalproject.services.PriceToPayService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,12 +27,14 @@ public class UserDashboardController {
     private final RentRepository rentRepository;
     private final CarRepository carRepository;
     private final DepartmentRepository departmentRepository;
+    private final PriceToPayService priceToPayService;
 
-    public UserDashboardController(UserRepository userRepository, RentRepository rentRepository, CarRepository carRepository, DepartmentRepository departmentRepository) {
+    public UserDashboardController(UserRepository userRepository, RentRepository rentRepository, CarRepository carRepository, DepartmentRepository departmentRepository, PriceToPayService priceToPayService) {
         this.userRepository = userRepository;
         this.rentRepository = rentRepository;
         this.carRepository = carRepository;
         this.departmentRepository = departmentRepository;
+        this.priceToPayService = priceToPayService;
     }
 
 
@@ -100,12 +101,7 @@ public class UserDashboardController {
 
     @GetMapping("/rent")
     public String displayUserAddForm(Model model, HttpSession session) {
-//        if (session.getAttribute("user") == null){
-//            return "redirect:/login";
-//        }
-//        User customer = (User) session.getAttribute("user");
         Rent rent = new Rent();
-//        rent.setCustomer(customer);
         Optional<User> employeeOptional = userRepository.findById(5L); //bot jest pod ID 5
         employeeOptional.ifPresent(rent::setEmployee);
         model.addAttribute("rent", rent);
@@ -122,19 +118,12 @@ public class UserDashboardController {
         }
         User user = (User) session.getAttribute("user");
         rent.setCustomer(user);
-        rent.setPrice(priceToPay(rent));
+        rent.setPrice(priceToPayService.priceToPay(rent));
         carRepository.updateCarStatus("reserved", rent.getCar().getId());
         rentRepository.save(rent);
         return "redirect:/user/rentals";
     }
 
-    public double priceToPay(Rent rent) {
-        double pricePerDay = rent.getCar().getPricePerDay();
-        LocalDate start = rent.getStartDate();
-        LocalDate end = rent.getReturnDate();
-        double days = ChronoUnit.DAYS.between(start, end);
-        return pricePerDay * days;
-    }
 
     @RequestMapping("/rentals")
     public String showAllUserRentals(Model model, HttpSession session) {

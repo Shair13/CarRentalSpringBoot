@@ -6,8 +6,8 @@ import com.example.carrentalproject.model.User;
 import com.example.carrentalproject.repository.CarRepository;
 import com.example.carrentalproject.repository.OpinionRepository;
 import com.example.carrentalproject.repository.UserRepository;
+import com.example.carrentalproject.services.RatingService;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("admin")
@@ -27,16 +25,19 @@ public class OpinionController {
     private final OpinionRepository opinionRepository;
     private final UserRepository userRepository;
     private final CarRepository carRepository;
+    private final RatingService ratingService;
 
-    public OpinionController(OpinionRepository opinionRepository, UserRepository userRepository, CarRepository carRepository) {
+    public OpinionController(OpinionRepository opinionRepository, UserRepository userRepository, CarRepository carRepository, RatingService ratingService) {
         this.opinionRepository = opinionRepository;
         this.userRepository = userRepository;
         this.carRepository = carRepository;
+        this.ratingService = ratingService;
     }
 
     @GetMapping("/opinion/add")
     public String displayAddForm(Model model) {
         model.addAttribute("opinion", new Opinion());
+        model.addAttribute("rating", ratingService.getRatingList());
         return "opinion/opinion-add-form";
     }
 
@@ -45,24 +46,8 @@ public class OpinionController {
         if (bindingResult.hasErrors()) {
             return "opinion/opinion-add-form";
         }
-        List<Integer> allRatings = opinionRepository.findAllByCar(opinion.getCar())
-                .stream()
-                .map(Opinion::getRating)
-                .collect(Collectors.toList());
-
-        allRatings.add(opinion.getRating());
-
-        double avgRating = allRatings.stream()
-                .mapToInt(Integer::intValue)
-                .average()
-                .orElse(0.0); // Ustawiam 0.0 jeżeli lista jest pusta
-
-        String avgToString = avgRating + "0";
-        String edit = avgToString.substring(0, 4);
-        double result = Double.parseDouble(edit);
-
-        carRepository.updateAvgRating(result, opinion.getCar().getId());
         opinionRepository.save(opinion);
+        ratingService.ratingAverageRefreshByOpinion(opinion);
         return "redirect:/admin/opinions";
     }
 
@@ -82,7 +67,7 @@ public class OpinionController {
 
     @RequestMapping("/opinions/bycar/details")
     public String showOpinionsByCarDetails(Model model, @RequestParam Long id) {
-        Car car = carRepository.findById(id).get();
+        Car car = carRepository.findById(id).orElseThrow(RuntimeException::new);
         model.addAttribute("opinions", opinionRepository.findAllByCar(car));
         return "opinion/opinion-bycar-details";
     }
@@ -91,6 +76,7 @@ public class OpinionController {
     public String displayUpdateForm(@RequestParam Long id, Model model) {
         Optional<Opinion> opinionOptional = opinionRepository.findById(id);
         opinionOptional.ifPresent(o -> model.addAttribute("opinion", o));
+        model.addAttribute("rating", ratingService.getRatingList());
         return "opinion/opinion-edit-form";
     }
 
@@ -100,34 +86,18 @@ public class OpinionController {
             return "opinion/opinion-edit-form";
         }
         opinionRepository.save(opinion);
-        ratingAverageRefresh(opinion);
+        ratingService.ratingAverageRefreshByOpinion(opinion);
         return "redirect:/admin/opinions";
     }
 
     @RequestMapping("/opinion/delete")
     public String deleteOpinion(@RequestParam Long id) {
         Optional<Opinion> opinionOptional = opinionRepository.findById(id);
-        opinionOptional.ifPresent(opinionRepository::delete);
-        ratingAverageRefresh(opinionOptional.get());
+        opinionOptional.ifPresent(o -> {
+            opinionRepository.delete(o);
+            ratingService.ratingAverageRefreshByOpinion(o);
+        });
         return "redirect:/admin/opinions";
-    }
-
-    public void ratingAverageRefresh(Opinion opinion) {
-        List<Integer> allRatings = opinionRepository.findAllByCar(opinion.getCar())
-                .stream()
-                .map(Opinion::getRating)
-                .toList();
-
-        double avgRating = allRatings.stream()
-                .mapToInt(Integer::intValue)
-                .average()
-                .orElse(0.0); // Ustawiam 0.0 jeżeli lista jest pusta
-
-        String avgToString = avgRating + "0";
-        String edit = avgToString.substring(0, 4);
-        double result = Double.parseDouble(edit);
-
-        carRepository.updateAvgRating(result, opinion.getCar().getId());
     }
 
     @ModelAttribute("users")
@@ -138,16 +108,5 @@ public class OpinionController {
     @ModelAttribute("cars")
     public List<Car> getCarList() {
         return carRepository.findAll();
-    }
-
-    @ModelAttribute("rating")
-    public List<Integer> getRatingArr() {
-        List<Integer> rating = new ArrayList<>();
-        rating.add(1);
-        rating.add(2);
-        rating.add(3);
-        rating.add(4);
-        rating.add(5);
-        return rating;
     }
 }
