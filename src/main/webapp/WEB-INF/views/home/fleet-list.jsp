@@ -44,5 +44,7 @@
     </c:forEach>
 
 </div>
+<%@ include file="../headers/home-footer.jsp" %>
+
 </body>
 </html>
