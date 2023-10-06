@@ -1,6 +1,7 @@
 <%@ taglib prefix="form"
            uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
@@ -8,4 +9,6 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Car Rental</title>
   <link rel="stylesheet" href='<c:url value="/css/style.css"/>'>
+<%--  <link rel="stylesheet" type="text/css" href="/css/style.css">--%>
 </head>
+

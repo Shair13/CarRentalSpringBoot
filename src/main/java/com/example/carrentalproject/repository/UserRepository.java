@@ -24,9 +24,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
             nativeQuery = true)
     void updatePassword(String password, Long id);
 
-   List<User> findAllByType(String status);
+//    List<User> findAllByType(String status);
 
-   Optional<User> findByEmail(String email);
+    User findByEmail(String email);
 
     List<User> findByEmailContaining(String search);
 

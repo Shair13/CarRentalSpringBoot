@@ -1,17 +1,18 @@
 package com.example.carrentalproject.controller;
 
-import com.example.carrentalproject.model.Department;
+import com.example.carrentalproject.model.CurrentUser;
 import com.example.carrentalproject.model.User;
 import com.example.carrentalproject.repository.UserRepository;
+import com.example.carrentalproject.services.UserService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +23,39 @@ import java.util.Optional;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
+
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
+
+
+
+
+    @GetMapping("/create-user")
+    @ResponseBody
+    public String createUser() {
+        User user = new User();
+        user.setFirstName("admin");
+        user.setLastName("admin");
+        user.setEmail("admin@admin.pl");
+        user.setPassword("admin");
+        userService.saveUser(user);
+        return "admin";
+    }
+
+    @GetMapping("/admin")
+    @ResponseBody
+    public String admin(@AuthenticationPrincipal CurrentUser customUser) {
+        User entityUser = customUser.getUser();
+        return "Hello " + entityUser.getEmail();
+    }
+
+
+
+
 
     @GetMapping(path = "/user/add")
     public String displayAddForm(Model model) {

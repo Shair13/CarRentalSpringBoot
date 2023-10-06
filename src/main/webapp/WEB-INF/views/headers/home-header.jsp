@@ -6,11 +6,11 @@
         <a href="/">
             <div class="menu-element">Strona główna</div>
         </a>
-        <c:if test="${sessionScope.user != null}">
-            <a href="${sessionScope.user.type}/dashboard">
+        <sec:authorize access="isAuthenticated()">
+            <a href="/admin/dashboard">
                 <div class="menu-element">Aplikacja</div>
             </a>
-        </c:if>
+        </sec:authorize>
         <a href="/fleet">
 
             <div class="menu-element">Nasza flota</div>
