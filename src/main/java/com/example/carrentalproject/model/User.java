@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -13,25 +14,54 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 80)
-    @Size(max = 80)
-    @NotBlank
+//    @Column(length = 80)
+//    @Size(max = 80)
+//    @NotBlank
     private String firstName;
-    @Column(length = 80)
-    @Size(max = 80)
-    @NotBlank
+//    @Column(length = 80)
+//    @Size(max = 80)
+//    @NotBlank
     private String lastName;
-    @NotBlank
-    private String type = "user";
-    @NotBlank
-    @Email
-    @Column(name = "email", unique = true)
+//    @NotBlank
+//    private String type = "user";
+//    @NotBlank
+//    @Email
+    @Column(nullable = false, unique = true, length = 60)
     private String email;
 
-    @Size(min = 4, max = 32)
+//    @Size(min = 4, max = 32)
     private String password;
 
+    private int enabled;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
+    public User(String email, String password, Set<Role> roles) {
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
     public User() {
+    }
+
+    public int getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public String getFullName(){
@@ -62,13 +92,13 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
+//    public String getType() {
+//        return type;
+//    }
+//
+//    public void setType(String type) {
+//        this.type = type;
+//    }
 
     public String getEmail() {
         return email;
@@ -92,7 +122,6 @@ public class User {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", type='" + type + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';

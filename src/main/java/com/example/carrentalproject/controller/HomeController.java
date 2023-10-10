@@ -1,6 +1,7 @@
 package com.example.carrentalproject.controller;
 
 import com.example.carrentalproject.model.Car;
+import com.example.carrentalproject.model.CurrentUser;
 import com.example.carrentalproject.model.Opinion;
 import com.example.carrentalproject.model.User;
 import com.example.carrentalproject.repository.CarRepository;
@@ -9,6 +10,7 @@ import com.example.carrentalproject.repository.UserRepository;
 import com.example.carrentalproject.services.RatingService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,12 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
-@SessionAttributes("user")
 public class HomeController {
 
     private final UserRepository userRepository;
@@ -36,10 +35,18 @@ public class HomeController {
         this.ratingService = ratingService;
     }
 
+    @GetMapping("/info")
+    @ResponseBody
+    public String admin(@AuthenticationPrincipal CurrentUser customUser) {
+        User entityUser = customUser.getUser();
+        return "Hello " + entityUser.getEmail();
+    }
+
     @RequestMapping("/")
     public String home() {
         return "home/home";
     }
+
 
     @GetMapping(path = "/registration")
     public String displayAddForm(Model model) {
@@ -56,33 +63,42 @@ public class HomeController {
         return "redirect:/";
     }
 
+    @GetMapping("/403")
+    public String accessDeniedPage(){
+        return "403";
+    }
+
     @GetMapping("/login")
-    public String displayLogin(HttpSession session) {
-        User user = (User) session.getAttribute("user");
+    public String login() {
         return "home/login";
     }
 
-    @PostMapping("/login")
-    public String processLogin(@RequestParam String email, @RequestParam String password, Model model) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if (userOptional.isEmpty()) {
-            return "redirect:/login";
-        }
-        User user = userOptional.get();
-        String typeOfUser = user.getType();
-        if ("user".equals(typeOfUser) && user.getPassword().equals(password)) {
-            model.addAttribute("user", user);
-            return "redirect:/user/dashboard";
-        }
+//    @GetMapping("/login")
+//    public String displayLogin(HttpSession session) {
+//        User user = (User) session.getAttribute("user");
+//        return "home/login";
+//    }
+
+//    @PostMapping("/login")
+//    public String processLogin(@RequestParam String email, @RequestParam String password, Model model) {
+//        User user = userRepository.findByEmail(email);
+//        if (user == null) {
+//            return "redirect:/login";
+//        }
+//        String typeOfUser = user.getType();
+//        if ("user".equals(typeOfUser) && user.getPassword().equals(password)) {
+//            model.addAttribute("user", user);
+//            return "redirect:/user/dashboard";
+//        }
 //        if (typeOfUser.equals("employee") && user.getPassword().equals(password)) {
 //            return "";
 //        }
-        if ("admin".equals(typeOfUser) && user.getPassword().equals(password)) {
-            model.addAttribute("user", user);
-            return "redirect:/admin/dashboard";
-        }
-        return "redirect:/login";
-    }
+//        if ("admin".equals(typeOfUser) && user.getPassword().equals(password)) {
+//            model.addAttribute("user", user);
+//            return "redirect:/admin/dashboard";
+//        }
+//        return "redirect:/login";
+//    }
 
     @GetMapping("/fleet")
     public String showAllCars(Model model, @RequestParam(defaultValue = "0") int page) {
@@ -120,15 +136,15 @@ public class HomeController {
         return "redirect:/opinions?carId=" + opinion.getCar().getId();
     }
 
-    @RequestMapping("/contact")
-    public String showContactPage(Model model){
-        model.addAttribute("CEO", userRepository.findAllByType("admin"));
-        return "home/contact";
-
-    }
+//    @RequestMapping("/contact")
+//    public String showContactPage(Model model) {
+//        model.addAttribute("CEO", userRepository.findAllByType("admin"));
+//        return "home/contact";
+//
+//    }
 
     @RequestMapping("/available")
-    public String availableCars(Model model, @RequestParam(defaultValue = "0") int page){
+    public String availableCars(Model model, @RequestParam(defaultValue = "0") int page) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         PageRequest pageable = PageRequest.of(page, 20, sort);
         model.addAttribute("available", carRepository.findByStatusContains("available", pageable));

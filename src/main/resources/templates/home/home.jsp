@@ -9,7 +9,10 @@
 <%@ include file="../headers/home-header.jsp" %>
 
 <div class="content">
-CONTENT
+    <sec:authorize access="isAuthenticated()">
+        <p>Zalogowany jako: <sec:authentication property="principal.username"/></p>
+        <p>Posiada role: <sec:authentication property="authorities"/></p>
+    </sec:authorize>
 </div>
 
 <%@ include file="../headers/home-footer.jsp" %>

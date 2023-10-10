@@ -13,9 +13,9 @@ public class AdminDashboardController {
 
     @RequestMapping("/dashboard")
     public String displayDashboard(HttpSession session, Model model) {
-        if (session.getAttribute("user") == null) {
-            return "redirect:/login";
-        }
+//        if (session.getAttribute("user") == null) {
+//            return "redirect:/login";
+//        }
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
 
