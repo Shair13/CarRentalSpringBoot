@@ -21,7 +21,6 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-//@SessionAttributes("user")
 public class HomeController {
 
     private final UserRepository userRepository;
