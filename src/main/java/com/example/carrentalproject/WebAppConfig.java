@@ -9,5 +9,6 @@ public class WebAppConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/dashboard").setViewName("dashboard/dashboard");
+        registry.addViewController("/403").setViewName("403");
     }
 }
