@@ -39,7 +39,7 @@
         </table>
     </div>
     <div class="car-opinion-container">
-        <c:if test="${sessionScope.user != null}">
+        <sec:authorize access="isAuthenticated()">
             <form:form method="post" modelAttribute="opinion" id="opinionAddForm">
                 <h2 class="h3 mb-3 fw-normal">Dodaj opinię</h2> <br>
                 <form:hidden path="id"/>
@@ -61,7 +61,7 @@
                 <button class="btn btn-primary w-100 py-2" type="submit">Dodaj</button>
                 <div id="error-message" class="alert alert-danger d-none"></div>
             </form:form>
-        </c:if>
+        </sec:authorize>
     </div>
     <div class="car-opinion-container">
         <c:if test="${opinions.size() > 0}">

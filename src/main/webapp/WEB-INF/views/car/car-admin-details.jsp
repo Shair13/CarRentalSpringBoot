@@ -13,7 +13,7 @@
 
 <div class="container">
 
-    <%@ include file="../headers/admin-dashboard-header.jsp" %>
+    <%@ include file="../headers/dashboard-header.jsp" %>
 
     <a href="/admin/rentals">
         <button type="button" class="btn btn-primary"><-- Powrót</button>

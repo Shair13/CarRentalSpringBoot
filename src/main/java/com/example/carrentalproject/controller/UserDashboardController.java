@@ -37,17 +37,8 @@ public class UserDashboardController {
         this.priceToPayService = priceToPayService;
     }
 
-    @RequestMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
-    }
-
     @GetMapping("edit/data")
     public String displayUpdateUserForm(Model model, HttpSession session) {
-        if (session.getAttribute("user") == null) {
-            return "redirect:/login";
-        }
         User user = (User) session.getAttribute("user");
         Optional<User> userOptional = userRepository.findById(user.getId());
         userOptional.ifPresent(u -> model.addAttribute("user", u));

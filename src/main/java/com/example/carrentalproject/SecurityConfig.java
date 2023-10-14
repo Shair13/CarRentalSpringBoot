@@ -22,7 +22,7 @@ public class SecurityConfig {
         UserDetails admin = User.withDefaultPasswordEncoder()
                 .username("admin")
                 .password("admin")
-                .roles("USER", "ADMIN")
+                .roles("ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(user, admin);
     }
@@ -31,11 +31,12 @@ public class SecurityConfig {
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/dashboard").authenticated()
                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .and().formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/");
+                .and().formLogin().loginPage("/login")
+                .defaultSuccessUrl("/")
+                .and().logout().logoutSuccessUrl("/");
         return http.build();
     }
 }

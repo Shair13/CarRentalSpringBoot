@@ -12,7 +12,7 @@
 </header>
 <div class="container">
 
-    <%@ include file="../headers/user-dashboard-header.jsp" %>
+    <%@ include file="../headers/dashboard-header.jsp" %>
 
     <div class="content">
         <form:form method="post">

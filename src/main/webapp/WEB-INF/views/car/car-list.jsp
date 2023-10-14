@@ -13,7 +13,7 @@
 
 <div class="container">
 
-    <%@ include file="../headers/admin-dashboard-header.jsp" %>
+    <%@ include file="../headers/dashboard-header.jsp" %>
 
 
     <div>

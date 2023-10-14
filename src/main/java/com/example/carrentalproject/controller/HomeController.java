@@ -63,23 +63,23 @@ public class HomeController {
 
     @PostMapping("/login")
     public String processLogin(@RequestParam String email, @RequestParam String password, Model model) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if (userOptional.isEmpty()) {
-            return "redirect:/login";
-        }
-        User user = userOptional.get();
-        String typeOfUser = user.getType();
-        if ("user".equals(typeOfUser) && user.getPassword().equals(password)) {
-            model.addAttribute("user", user);
-            return "redirect:/user/dashboard";
-        }
-//        if (typeOfUser.equals("employee") && user.getPassword().equals(password)) {
-//            return "";
+//        Optional<User> userOptional = userRepository.findByEmail(email);
+//        if (userOptional.isEmpty()) {
+//            return "redirect:/login";
 //        }
-        if ("admin".equals(typeOfUser) && user.getPassword().equals(password)) {
-            model.addAttribute("user", user);
-            return "redirect:/admin/dashboard";
-        }
+//        User user = userOptional.get();
+//        String typeOfUser = user.getType();
+//        if ("user".equals(typeOfUser) && user.getPassword().equals(password)) {
+//            model.addAttribute("user", user);
+//            return "redirect:/user/dashboard";
+//        }
+////        if (typeOfUser.equals("employee") && user.getPassword().equals(password)) {
+////            return "";
+////        }
+//        if ("admin".equals(typeOfUser) && user.getPassword().equals(password)) {
+//            model.addAttribute("user", user);
+//            return "redirect:/admin/dashboard";
+//        }
         return "redirect:/login";
     }
 
@@ -99,10 +99,10 @@ public class HomeController {
             model.addAttribute("car", c);
             newOpinion.setCar(c);
         });
-        if (session.getAttribute("user") != null) {
-            User user = (User) session.getAttribute("user");
-            newOpinion.setUser(user);
-        }
+//        if (session.getAttribute("user") != null) {
+//            User user = (User) session.getAttribute("user");
+//            newOpinion.setUser(user);
+//        }
         model.addAttribute("rating", ratingService.getRatingList());
         model.addAttribute("opinions", opinionRepository.findAllByCar(carOptional.get(), Sort.by(Sort.Order.desc("id"))));
         model.addAttribute("opinion", newOpinion);
