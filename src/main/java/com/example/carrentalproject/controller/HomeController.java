@@ -57,8 +57,7 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String displayLogin(HttpSession session) {
-        User user = (User) session.getAttribute("user");
+    public String displayLogin() {
         return "home/login";
     }
 

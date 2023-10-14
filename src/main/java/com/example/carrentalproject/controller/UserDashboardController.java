@@ -37,13 +37,6 @@ public class UserDashboardController {
         this.priceToPayService = priceToPayService;
     }
 
-
-
-    @RequestMapping("/dashboard")
-    public String displayDashboard() {
-     return "acc-user/dashboard";
-    }
-
     @RequestMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
