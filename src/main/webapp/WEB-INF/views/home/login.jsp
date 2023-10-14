@@ -12,8 +12,8 @@
         <form method="post" id="loginForm">
             <h1>Logowanie</h1> <br>
             <div class="form-floating">
-                <input type="email" name="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
-                <label for="floatingEmail">Email address</label>
+                <input type="text" name="username" class="form-control" id="floatingUsername" placeholder="Username">
+                <label for="floatingUsername">Username</label>
             </div>
             <br>
             <div class="form-floating">
@@ -21,7 +21,8 @@
                 <label for="floatingPassword">Password</label>
             </div>
             <br>
-            <input type="submit" value="OK">
+            <div><input type="submit" value="zaloguj"/></div>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <div id="error-message" class="error d-none"></div>
         </form>
     </main>
