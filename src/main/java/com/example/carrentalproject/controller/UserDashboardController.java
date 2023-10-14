@@ -40,15 +40,8 @@ public class UserDashboardController {
 
 
     @RequestMapping("/dashboard")
-    public String displayDashboard(HttpSession session, Model model) {
-        if (session.getAttribute("user") == null) {
-            return "redirect:/login";
-        }
-        User user = (User) session.getAttribute("user");
-//        model.addAttribute("lastFive", rentRepository.findLast5ByCustomer(user));
-        model.addAttribute("user", user);
-
-        return "acc-user/dashboard";
+    public String displayDashboard() {
+     return "acc-user/dashboard";
     }
 
     @RequestMapping("/logout")
