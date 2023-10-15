@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 
@@ -7,12 +9,11 @@
 
 <body>
 <header>
-    <div class="user-name">${user.type} : ${user.email}</div>
-    <div class="logo"></div>
+    <%@ include file="../headers/current-user.jsp" %>
 </header>
 <div class="container">
 
-    <%@ include file="../headers/admin-dashboard-header.jsp" %>
+    <%@ include file="../headers/dashboard-header.jsp" %>
 
     <div class="content">
         <form:form method="post" modelAttribute="user" id="userAdminAddForm">
@@ -30,6 +31,10 @@
             <form:input path="email" class="form-control" id="floatingEmail"/>
             <label for="floatingEmail">Email</label>
         </div><br>
+            <div class="form-floating">
+                <form:input path="username" class="form-control" id="floatingUsername"/>
+                <label for="floatingUsername">Nazwa użytkownika</label>
+            </div><br>
         <div class="form-floating">
             <form:input path="password" type="password" class="form-control" id="floatingPassword"/>
             <label for="floatingPassword">Hasło</label>

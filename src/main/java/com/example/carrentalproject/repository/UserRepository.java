@@ -12,6 +12,8 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    User findByUsername(String username);
+
     @Transactional
     @Modifying
     @Query(value = "UPDATE users SET first_name = ?1, last_name = ?2, email = ?3 WHERE id = ?4",
@@ -23,8 +25,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "UPDATE users SET password = ?1 WHERE id = ?2",
             nativeQuery = true)
     void updatePassword(String password, Long id);
-
-   List<User> findAllByType(String status);
 
    Optional<User> findByEmail(String email);
 

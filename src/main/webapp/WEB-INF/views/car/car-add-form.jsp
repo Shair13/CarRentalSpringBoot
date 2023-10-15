@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 
@@ -7,8 +9,7 @@
 
 <body>
 <header>
-    <div class="user-name">${user.type} : ${user.email}</div>
-    <div class="logo"></div>
+    <%@ include file="../headers/current-user.jsp" %>
 </header>
 <div class="container">
 
@@ -66,7 +67,8 @@
                 <form:input path="vin" class="form-control" id="floatingVin"/>
                 <label for="floatingVin">VIN</label>
             </div><br>
-            <button class="btn btn-primary w-100 py-2" type="submit">Add</button>
+            <button class="btn btn-primary w-100 py-2" type="submit">Dodaj</button>
+            <a href="/admin/cars">Cofnij</a>
             <div id="error-message" class="error d-none"></div>
         </form:form>
     </div>

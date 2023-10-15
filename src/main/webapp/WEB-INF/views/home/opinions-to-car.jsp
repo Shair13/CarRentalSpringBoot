@@ -8,6 +8,8 @@
 
 <%@ include file="../headers/home-header.jsp" %>
 
+<h1>User: ${user}</h1>
+
 <div class="cont">
     <div class="car-opinion-container">
         <table class="table table-striped">

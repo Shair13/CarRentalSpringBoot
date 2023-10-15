@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 
@@ -7,12 +9,11 @@
 
 <body>
 <header>
-    <div class="user-name">${user.type} : ${user.email}</div>
-    <div class="logo"></div>
+    <%@ include file="../headers/current-user.jsp" %>
 </header>
 <div class="container">
 
-    <%@ include file="../headers/admin-dashboard-header.jsp" %>
+    <%@ include file="../headers/dashboard-header.jsp" %>
 
     <div class="content">
 
@@ -32,7 +33,7 @@
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
                 <th scope="col">Email</th>
-                <th scope="col">Type</th>
+                <th scope="col">Username</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -43,7 +44,7 @@
                     <td>${user.firstName}</td>
                     <td>${user.lastName}</td>
                     <td>${user.email}</td>
-                    <td>${user.type}</td>
+                    <td>${user.username}</td>
                     <td>
                         <a href="/admin/user/delete?id=${user.id}">
                             <button type="button" class="btn btn-outline-danger">Delete</button>

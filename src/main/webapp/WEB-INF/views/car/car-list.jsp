@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 
@@ -7,8 +9,7 @@
 
 <body>
 <header>
-    <div class="user-name">${user.type} : ${user.email}</div>
-    <div class="logo"></div>
+    <%@ include file="../headers/current-user.jsp" %>
 </header>
 
 <div class="container">

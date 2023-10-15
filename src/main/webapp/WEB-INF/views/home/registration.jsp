@@ -23,6 +23,11 @@
         </div>
         <br>
         <div class="form-floating">
+            <form:input path="username" class="form-control" id="floatingUsername"/>
+            <label for="floatingUsername">Username</label>
+        </div>
+        <br>
+        <div class="form-floating">
             <form:input path="email" class="form-control" id="floatingEmail"/>
             <label for="floatingEmail">Email</label>
         </div>

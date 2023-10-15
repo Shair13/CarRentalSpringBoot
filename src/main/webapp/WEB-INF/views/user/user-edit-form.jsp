@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 
@@ -7,12 +9,11 @@
 
 <body>
 <header>
-    <div class="user-name">${user.type} : ${user.email}</div>
-    <div class="logo"></div>
+    <%@ include file="../headers/current-user.jsp" %>
 </header>
 <div class="container">
 
-    <%@ include file="../headers/admin-dashboard-header.jsp" %>
+    <%@ include file="../headers/dashboard-header.jsp" %>
 
     <div class="content">
         <form:form method="post" modelAttribute="user">
@@ -29,20 +30,20 @@
         </div>
         <br>
         <div class="form-floating">
-            <form:select path="type" class="form-control" id="floatingUserType">
-                <form:options items="${userTypes}"/>
+            <form:input path="username" class="form-control" id="floatingUsername"/>
+            <label for="floatingUsername">Nazwa użytkownika</label>
+        </div>
+        <br>
+        <div class="form-floating">
+            <form:select path="roles" class="form-control" id="floatingUserRole">
+                <form:options items="${userRoles}" itemValue="id" itemLabel="name"/>
             </form:select>
-            <label for="floatingPassword">Typ użytkownika</label>
+            <label for="floatingUserRole">Typ użytkownika</label>
         </div>
         <br>
         <div class="form-floating">
             <form:input path="email" class="form-control" id="floatingEmail"/>
             <label for="floatingEmail">Email</label>
-        </div>
-        <br>
-        <div class="form-floating">
-            <form:input path="password" type="password" class="form-control" id="floatingPassword"/>
-            <label for="floatingPassword">Password</label>
         </div>
         <br>
         <button class="btn btn-primary w-100 py-2" type="submit">Update</button>
@@ -51,7 +52,7 @@
         </div>
     </div>
 
-        <%@ include file="../headers/footer.jsp" %>
+    <%@ include file="../headers/footer.jsp" %>
 
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.example.carrentalproject.controller;
 
-import com.example.carrentalproject.model.Car;
 import com.example.carrentalproject.model.Department;
 import com.example.carrentalproject.repository.DepartmentRepository;
 import org.springframework.data.domain.PageRequest;

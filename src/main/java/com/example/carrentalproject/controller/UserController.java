@@ -1,19 +1,17 @@
 package com.example.carrentalproject.controller;
 
-import com.example.carrentalproject.model.Department;
+import com.example.carrentalproject.model.Role;
 import com.example.carrentalproject.model.User;
+import com.example.carrentalproject.repository.RoleRepository;
 import com.example.carrentalproject.repository.UserRepository;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import com.example.carrentalproject.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +20,13 @@ import java.util.Optional;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
+    private final RoleRepository roleRepository;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserService userService, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.userService = userService;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping(path = "/user/add")
@@ -61,15 +63,21 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "user/user-edit-form";
         }
-        userRepository.save(user);
+        userService.editUser(user);
         return "redirect:/admin/users";
     }
 
-    @RequestMapping("/users")
-    public String showAllUsers(Model model, @RequestParam(defaultValue = "0") int page) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        PageRequest pageable = PageRequest.of(page, 20, sort);
-        model.addAttribute("users", userRepository.findAll(pageable));
+//    @RequestMapping("/users")
+//    public String showAllUsers(Model model, @RequestParam(defaultValue = "0") int page) {
+//        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+//        PageRequest pageable = PageRequest.of(page, 20, sort);
+//        model.addAttribute("users", userRepository.findAll(pageable));
+//        return "/user/user-list";
+//    }
+
+    @GetMapping("/users")
+    public String showAllUsers(Model model) {
+        model.addAttribute("users", userRepository.findAll());
         return "/user/user-list";
     }
 
@@ -86,12 +94,8 @@ public class UserController {
         return "redirect:/admin/users";
     }
 
-    @ModelAttribute("userTypes")
-    public List<String> getTypesOfUser() {
-        List<String> types = new ArrayList<>();
-        types.add("user");
-        types.add("admin");
-        types.add("employee");
-        return types;
+    @ModelAttribute("userRoles")
+    public List<Role> getTypesOfUser() {
+       return roleRepository.findAll();
     }
 }

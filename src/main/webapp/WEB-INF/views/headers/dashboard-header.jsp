@@ -13,7 +13,7 @@
                     <div class="nav-btn">▶ Home</div>
                 </a></li>
                 <br>
-                <li class="menu-list dashboard-list"><a href="/admin/dashboard">
+                <li class="menu-list dashboard-list"><a href="/dashboard">
                     <div class="nav-btn">▶ Dashboard</div>
                 </a></li>
             </sec:authorize>

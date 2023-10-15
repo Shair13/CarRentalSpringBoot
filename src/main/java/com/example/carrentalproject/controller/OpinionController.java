@@ -6,15 +6,16 @@ import com.example.carrentalproject.model.User;
 import com.example.carrentalproject.repository.CarRepository;
 import com.example.carrentalproject.repository.OpinionRepository;
 import com.example.carrentalproject.repository.UserRepository;
+import com.example.carrentalproject.services.CurrentUser;
 import com.example.carrentalproject.services.RatingService;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,7 @@ public class OpinionController {
         this.carRepository = carRepository;
         this.ratingService = ratingService;
     }
+
 
     @GetMapping("/opinion/add")
     public String displayAddForm(Model model) {
@@ -54,6 +56,7 @@ public class OpinionController {
     @RequestMapping("/opinions")
     public String showAllOpinions(Model model, @RequestParam(defaultValue = "0") int page) {
         PageRequest pageable = PageRequest.of(page, 50);
+
         model.addAttribute("opinions", opinionRepository.findAll(pageable));
         return "opinion/opinion-list";
     }
@@ -66,7 +69,9 @@ public class OpinionController {
     }
 
     @RequestMapping("/opinions/bycar/details")
-    public String showOpinionsByCarDetails(Model model, @RequestParam Long id) {
+    public String showOpinionsByCarDetails(@AuthenticationPrincipal CurrentUser customUser, Model model, @RequestParam Long id) {
+        User entityUser = customUser.getUser();
+        model.addAttribute("user", entityUser.getUsername());
         Car car = carRepository.findById(id).orElseThrow(RuntimeException::new);
         model.addAttribute("opinions", opinionRepository.findAllByCar(car));
         return "opinion/opinion-bycar-details";

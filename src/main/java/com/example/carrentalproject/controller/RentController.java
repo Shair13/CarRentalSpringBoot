@@ -110,14 +110,9 @@ public class RentController {
         return "redirect:/admin/rentals";
     }
 
-    @ModelAttribute("employees")
-    public List<User> getAllEmployees() {
-        return userRepository.findAllByType("employee");
-    }
-
     @ModelAttribute("users")
     public List<User> getAllUsers() {
-        return userRepository.findAllByType("user");
+        return userRepository.findAll();
     }
 
     @ModelAttribute("departments")

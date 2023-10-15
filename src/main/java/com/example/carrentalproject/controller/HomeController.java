@@ -6,9 +6,12 @@ import com.example.carrentalproject.model.User;
 import com.example.carrentalproject.repository.CarRepository;
 import com.example.carrentalproject.repository.OpinionRepository;
 import com.example.carrentalproject.repository.UserRepository;
+import com.example.carrentalproject.services.CurrentUser;
 import com.example.carrentalproject.services.RatingService;
+import com.example.carrentalproject.services.UserService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,30 +19,32 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
-@SessionAttributes("user")
 public class HomeController {
 
-    private final UserRepository userRepository;
     private final CarRepository carRepository;
     private final OpinionRepository opinionRepository;
     private final RatingService ratingService;
+    private final UserService userService;
 
-    public HomeController(UserRepository userRepository, CarRepository carRepository, OpinionRepository opinionRepository, RatingService ratingService) {
-        this.userRepository = userRepository;
+
+    public HomeController(CarRepository carRepository, OpinionRepository opinionRepository, RatingService ratingService, UserService userService) {
         this.carRepository = carRepository;
         this.opinionRepository = opinionRepository;
         this.ratingService = ratingService;
+        this.userService = userService;
     }
 
-    @RequestMapping("/")
-    public String home() {
-        return "home/home";
-    }
+//    @GetMapping("/test")
+//    public String admin(@AuthenticationPrincipal CurrentUser customUser, Model model) {
+//        if (customUser != null) {
+//            User entityUser = customUser.getUser();
+//            model.addAttribute("test", entityUser);
+//        }
+//        return "home/test";
+//    }
 
     @GetMapping(path = "/registration")
     public String displayAddForm(Model model) {
@@ -52,35 +57,8 @@ public class HomeController {
         if (bindingResult.hasErrors() || !user.getPassword().equals(pass)) {
             return "home/registration";
         }
-        userRepository.save(user);
+        userService.saveUser(user);
         return "redirect:/";
-    }
-
-    @GetMapping("/login")
-    public String displayLogin() {
-        return "home/login";
-    }
-
-    @PostMapping("/login")
-    public String processLogin(@RequestParam String email, @RequestParam String password, Model model) {
-//        Optional<User> userOptional = userRepository.findByEmail(email);
-//        if (userOptional.isEmpty()) {
-//            return "redirect:/login";
-//        }
-//        User user = userOptional.get();
-//        String typeOfUser = user.getType();
-//        if ("user".equals(typeOfUser) && user.getPassword().equals(password)) {
-//            model.addAttribute("user", user);
-//            return "redirect:/user/dashboard";
-//        }
-////        if (typeOfUser.equals("employee") && user.getPassword().equals(password)) {
-////            return "";
-////        }
-//        if ("admin".equals(typeOfUser) && user.getPassword().equals(password)) {
-//            model.addAttribute("user", user);
-//            return "redirect:/admin/dashboard";
-//        }
-        return "redirect:/login";
     }
 
     @GetMapping("/fleet")
@@ -120,14 +98,14 @@ public class HomeController {
     }
 
     @RequestMapping("/contact")
-    public String showContactPage(Model model){
-        model.addAttribute("CEO", userRepository.findAllByType("admin"));
+    public String showContactPage(Model model) {
+//        model.addAttribute("CEO", userRepository.findAllByType("admin"));
         return "home/contact";
 
     }
 
     @RequestMapping("/available")
-    public String availableCars(Model model, @RequestParam(defaultValue = "0") int page){
+    public String availableCars(Model model, @RequestParam(defaultValue = "0") int page) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         PageRequest pageable = PageRequest.of(page, 20, sort);
         model.addAttribute("available", carRepository.findByStatusContains("available", pageable));

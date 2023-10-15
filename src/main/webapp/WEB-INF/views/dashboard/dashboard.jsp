@@ -9,10 +9,7 @@
 
 <body>
 <header>
-    <sec:authorize access="isAuthenticated()">
-    <div class="user-name"><sec:authentication property="principal.username"/> : <sec:authentication property="authorities"/></div>
-    <div class="logo"></div>
-    </sec:authorize>
+    <%@ include file="../headers/current-user.jsp" %>
 </header>
 <div class="container">
 
@@ -22,6 +19,11 @@
     <div class="content">
         <h1>Witaj potężny Adminie</h1>
     </div>
+    </sec:authorize>
+    <sec:authorize access="hasRole('USER')">
+        <div class="content">
+            <h1>Witaj użytkowniku</h1>
+        </div>
     </sec:authorize>
 </div>
 
