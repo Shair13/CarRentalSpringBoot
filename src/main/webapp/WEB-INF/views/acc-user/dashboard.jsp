@@ -7,7 +7,7 @@
 
 <body>
 <header>
-    <div class="user-name">${user.email}</div>
+    <div class="user-name">${user.type} : ${user.email}</div>
     <div class="logo"></div>
 </header>
 <div class="container">

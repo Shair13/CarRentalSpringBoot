@@ -23,24 +23,33 @@ public class Rent {
     @NotNull
     @ManyToOne
     private Car car;
-    @NotBlank
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
     @NotNull
     @ManyToOne
     private Department takingPlace;
-    @NotBlank
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String returnDate;
+    private LocalDate returnDate;
     @NotNull
     @ManyToOne
     private Department returningPlace;
     @Min(value = 0)
     private double price;
+    private String status = "process";
 
     public Rent() {
     }
 
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
@@ -90,11 +99,11 @@ public class Rent {
         this.takingPlace = takingPlace;
     }
 
-    public String getReturnDate() {
+    public LocalDate getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(String returnDate) {
+    public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
     }
 

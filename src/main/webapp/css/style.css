@@ -16,14 +16,15 @@ header {
     align-content: center;
 }
 
-.header-space{
+.header-space {
     width: 20%;
 }
 
-.login-element{
+.login-element {
     color: dodgerblue;
 }
-.register-element{
+
+.register-element {
     color: yellowgreen;
 }
 
@@ -82,7 +83,7 @@ header {
     align-items: center; /* Wyśrodkowanie w pionie */
 }
 
-.menu-element{
+.menu-element {
     display: flex;
     height: 100%;
     justify-content: center; /* Wyśrodkowanie w poziomie */
@@ -123,6 +124,113 @@ a {
 }
 
 .mouseover {
+    margin-left: 8px;
     color: yellow;
+    justify-content: center; /* Wyśrodkowanie w poziomie */
 }
 
+/*Tabela*/
+
+table, tr, td {
+    border: 3px solid black;
+    border-collapse: collapse;
+    background-color: #ffc;
+    padding: 5px;
+}
+
+tr, td {
+    padding: 20px 30px;
+}
+
+/*add new car button*/
+
+div.add-new-car {
+    display: flex;
+    width: 120px;
+    height: 65px;
+    background-color: royalblue;
+    color: wheat;
+    margin: 20px;
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+}
+
+/*fleet*/
+
+.cont {
+    width: 100%;
+}
+
+.fleet-container {
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 50px;
+    width: 100%;
+    height: 200px;
+    background-color: royalblue;
+    display: flex;
+}
+
+.fleet-container2 {
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 50px;
+    width: 100%;
+    height: 100px;
+    background-color: whitesmoke;
+    display: flex;
+}
+
+a.registration {
+    color: orangered;
+}
+
+.car-opinion-container {
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 50px;
+    width: 100%;
+    background-color: greenyellow;
+    display: flex;
+}
+
+.fleet-button {
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    width: 80px;
+    height: 35px;
+    background-color: blue;
+    display: flex;
+}
+
+.margin-left {
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    margin-left: 100px;
+}
+
+div.d-none {
+    display: none;
+}
+
+.error {
+    padding: 15px;
+    margin: 10px;
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center; /* Wyśrodkowanie w pionie */
+    height: 40px;
+}
+
+.mouseover-home{
+    color: orange;
+}
