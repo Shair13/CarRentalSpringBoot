@@ -11,7 +11,7 @@
     <div class="logo"></div>
 </header>
 
-<div class="container">
+<div class="container bgc-img3">
 
     <%@ include file="../headers/admin-dashboard-header.jsp" %>
 
@@ -47,19 +47,19 @@
                     <th id="carId" scope="row">${rent.id}</th>
                     <td>
                         <a href="/admin/user/details?id=${rent.customer.id}">
-                            <button type="button" class="btn btn-outline-info">i</button>
+                            <div class="info">info</div>
                         </a>
                             ${rent.customer.fullName}
                     </td>
                     <td>
                         <a href="/admin/user/details?id=${rent.employee.id}">
-                            <button type="button" class="btn btn-outline-info">i</button>
+                            <div class="info">info</div>
                         </a>
                             ${rent.employee.fullName}
                     </td>
                     <td>
                         <a href="/admin/car/details?id=${rent.car.id}">
-                            <button type="button" class="btn btn-outline-info">i</button>
+                            <div class="info">info</div>
                         </a>
                             ${rent.car.fullName}
                     </td>
@@ -67,13 +67,13 @@
                     <td>${rent.returnDate}</td>
                     <td>
                         <a href="/admin/department/details?id=${rent.takingPlace.id}">
-                            <button type="button" class="btn btn-outline-info">i</button>
+                            <div class="info">info</div>
                         </a>
                             ${rent.takingPlace.fullName}
                     </td>
                     <td>
                         <a href="/admin/department/details?id=${rent.returningPlace.id}">
-                            <button type="button" class="btn btn-outline-info">i</button>
+                            <div class="info">info</div>
                         </a>
                             ${rent.returningPlace.fullName}
                     </td>
@@ -85,10 +85,10 @@
                            data-target="#deleteMessage">
                             <button type="button" class="btn btn-outline-danger">Usuń</button>
                         </a>
-                        <a href="/admin/rent/edit?id=${rent.id}">
-                            <button type="button" class="btn btn-outline-warning">Edytuj</button>
-                        </a>
                         <c:if test="${rent.status == 'process'}">
+                            <a href="/admin/rent/edit?id=${rent.id}">
+                                <button type="button" class="btn btn-outline-warning">Edytuj</button>
+                            </a>
                             <a href="/admin/rent/end?rentId=${rent.id}">
                                 <button type="button" class="btn btn-outline-warning">Zakończ</button>
                             </a>

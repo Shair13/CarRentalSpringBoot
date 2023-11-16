@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface RentRepository extends JpaRepository<Rent, Long> {
 
-    List<Rent> findLast5ByCustomer(User user);
+    List<Rent> findAllByCustomerAndStatus(User user, String status);
 
     List<Rent> findAllByCustomerOrderByIdDesc(User user);
 

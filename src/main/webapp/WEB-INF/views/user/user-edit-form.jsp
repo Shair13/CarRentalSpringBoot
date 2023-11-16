@@ -10,22 +10,22 @@
     <div class="user-name">${user.type} : ${user.email}</div>
     <div class="logo"></div>
 </header>
-<div class="container">
+<div class="container bgc-img3">
 
     <%@ include file="../headers/admin-dashboard-header.jsp" %>
 
     <div class="content">
         <form:form method="post" modelAttribute="user">
-        <h1 class="h3 mb-3 fw-normal">Update user</h1><br>
+        <h1 class="h3 mb-3 fw-normal">Edycja użytkownika</h1><br>
         <form:hidden path="id"/>
         <div class="form-floating">
             <form:input path="firstName" class="form-control" id="floatingFirstName"/>
-            <label for="floatingFirstName">First Name</label>
+            <label for="floatingFirstName">Imię</label>
         </div>
         <br>
         <div class="form-floating">
             <form:input path="lastName" class="form-control" id="floatingLastName"/>
-            <label for="floatingLastName">Last Name</label>
+            <label for="floatingLastName">Nazwisko</label>
         </div>
         <br>
         <div class="form-floating">
@@ -42,10 +42,11 @@
         <br>
         <div class="form-floating">
             <form:input path="password" type="password" class="form-control" id="floatingPassword"/>
-            <label for="floatingPassword">Password</label>
+            <label for="floatingPassword">Hasło</label>
         </div>
         <br>
-        <button class="btn btn-primary w-100 py-2" type="submit">Update</button>
+        <button class="btn btn-primary w-100 py-2" type="submit">Aktualizuj</button>
+            <a href="/admin/users">Cofnij</a>
         <div id="error-message" class="alert alert-danger d-none">
             </form:form>
         </div>

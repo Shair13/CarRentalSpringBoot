@@ -8,13 +8,13 @@
 
 <%@ include file="../headers/home-header.jsp" %>
 
-<div>
-    <h3>Phone numbers & e-mail addresses.</h3>
+<div class="bgc-img2">
+    <h3 class="ceo-color">Phone numbers & e-mail addresses.</h3>
     <br>
     <br>
-    CEO's: <br>
+    <p class="ceo-color">CEO's:</p> <br>
     <c:forEach items="${CEO}" var="c">
-        <h1>${c.fullName} - ${c.email}</h1> <br>
+        <h1 class="ceo-color">${c.fullName} - ${c.email}</h1> <br>
     </c:forEach></div>
 </div>
 <%@ include file="../headers/home-footer.jsp" %>

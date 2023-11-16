@@ -10,7 +10,7 @@
     <div class="user-name">${user.type} : ${user.email}</div>
     <div class="logo"></div>
 </header>
-<div class="container">
+<div class="container bgc-img3">
 
     <%@ include file="../headers/user-dashboard-header.jsp" %>
 
@@ -19,7 +19,7 @@
             <h1 class="h3 mb-3 fw-normal">Edytuj hasło</h1> <br>
             <div class="form-floating">
                 <input type="password" name="pass1" id="pass1">
-                <label for="pass2">Podaj hasło</label>
+                <label for="pass2">Podaj nowe hasło</label>
             </div>
             <br>
             <div class="form-floating">
@@ -32,6 +32,6 @@
         </form:form>
     </div>
 </div>
-<%--<script src="/js/dashboard.js"></script>--%>
+<script src="../../../js/dashboard.js"></script>
 </body>
 </html>

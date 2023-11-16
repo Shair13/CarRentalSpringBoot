@@ -68,7 +68,7 @@ public class UserController {
     @RequestMapping("/users")
     public String showAllUsers(Model model, @RequestParam(defaultValue = "0") int page) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        PageRequest pageable = PageRequest.of(page, 20, sort);
+        PageRequest pageable = PageRequest.of(page, 10, sort);
         model.addAttribute("users", userRepository.findAll(pageable));
         return "/user/user-list";
     }

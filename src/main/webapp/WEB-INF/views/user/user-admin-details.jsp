@@ -11,7 +11,7 @@
     <div class="logo"></div>
 </header>
 
-<div class="container">
+<div class="container bgc-img3">
 
     <%@ include file="../headers/admin-dashboard-header.jsp" %>
 

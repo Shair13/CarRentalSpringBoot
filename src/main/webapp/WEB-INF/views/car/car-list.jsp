@@ -11,7 +11,7 @@
     <div class="logo"></div>
 </header>
 
-<div class="container">
+<div class="container bgc-img3">
 
     <%@ include file="../headers/admin-dashboard-header.jsp" %>
 
@@ -21,6 +21,15 @@
             <a class="button-add-car" href="/admin/car/add">
                 <div class="add-new-car">Dodaj samochód</div>
             </a>
+        </div>
+        <div class="pagination">
+            <c:if test="${cars.totalPages > 1}">
+                <c:forEach begin="0" end="${cars.totalPages - 1}" varStatus="page">
+                    <a href="?page=${page.index}">
+                        <div class="add-new-car">${page.index + 1}</div>
+                    </a>
+                </c:forEach>
+            </c:if>
         </div>
         <div class="container">
             <table class="table table-striped">
@@ -71,16 +80,6 @@
                 </c:forEach>
                 </tbody>
             </table>
-        </div>
-        <!-- Wyświetl paginację -->
-        <div class="pagination">
-            <c:if test="${cars.totalPages > 1}">
-                <c:forEach begin="0" end="${cars.totalPages - 1}" varStatus="page">
-                    <a href="?page=${page.index}">
-                        <div class="add-new-car">${page.index + 1}</div>
-                    </a>
-                </c:forEach>
-            </c:if>
         </div>
     </div>
 </div>

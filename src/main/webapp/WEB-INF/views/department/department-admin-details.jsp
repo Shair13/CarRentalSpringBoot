@@ -11,7 +11,7 @@
     <div class="logo"></div>
 </header>
 
-<div class="container">
+<div class="container bgc-img3">
 
     <%@ include file="../headers/admin-dashboard-header.jsp" %>
 
@@ -44,7 +44,7 @@
             </tr>
         </table>
         <a href="/admin/rentals">
-            <button type="button" class="btn btn-primary"><-- Powrót</button>
+            <div class="add-new-car">Powrót</div>
         </a>
     </div>
 </div>

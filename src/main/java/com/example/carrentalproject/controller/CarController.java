@@ -50,7 +50,7 @@ public class CarController {
     @RequestMapping("/cars")
     public String showAllCars(Model model, @RequestParam(defaultValue = "0") int page){
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        PageRequest pageable = PageRequest.of(page, 10, sort);
+        PageRequest pageable = PageRequest.of(page, 5, sort);
         model.addAttribute("cars", carRepository.findAll(pageable));
         return "car/car-list";
     }

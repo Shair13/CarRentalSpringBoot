@@ -10,7 +10,7 @@
     <div class="user-name">${user.type} : ${user.email}</div>
     <div class="logo"></div>
 </header>
-<div class="container">
+<div class="container bgc-img3">
 
     <%@ include file="../headers/user-dashboard-header.jsp" %>
 
@@ -59,6 +59,6 @@
         </form:form>
     </div>
 </div>
-<%--<script src="/js/dashboard.js"></script>--%>
+<script src="../../../js/dashboard.js"></script>
 </body>
 </html>

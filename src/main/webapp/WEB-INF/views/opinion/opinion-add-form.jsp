@@ -10,7 +10,7 @@
     <div class="user-name">${user.type} : ${user.email}</div>
     <div class="logo"></div>
 </header>
-<div class="container">
+<div class="container bgc-img3">
 
     <%@ include file="../headers/admin-dashboard-header.jsp" %>
 
@@ -44,6 +44,7 @@
                 <label for="floatingRating">Ocena</label>
             </div><br>
             <button class="btn btn-primary w-100 py-2" type="submit">Dodaj</button>
+            <a href="/admin/opinions">Cofnij</a>
             <div id="error-message" class="alert alert-danger d-none"></div>
         </form:form>
     </div>

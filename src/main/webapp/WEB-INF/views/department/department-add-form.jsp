@@ -10,7 +10,7 @@
     <div class="user-name">${user.type} : ${user.email}</div>
     <div class="logo"></div>
 </header>
-<div class="container">
+<div class="container bgc-img3">
 
     <%@ include file="../headers/admin-dashboard-header.jsp" %>
 
@@ -20,26 +20,27 @@
         <form:hidden path="id"/>
         <div class="form-floating">
             <form:input path="city" class="form-control" id="floatingCity"/>
-            <label for="floatingCity">City</label>
+            <label for="floatingCity">Miasto</label>
         </div><br>
         <div class="form-floating">
             <form:input path="street" class="form-control" id="floatingStreet"/>
-            <label for="floatingStreet">Street</label>
+            <label for="floatingStreet">Ulica</label>
         </div><br>
         <div class="form-floating">
             <form:input path="number" class="form-control" id="floatingNumber"/>
-            <label for="floatingNumber">Address number</label>
+            <label for="floatingNumber">Numer budynku / lokalu</label>
         </div><br>
         <div class="form-floating">
             <form:input path="zipCode" class="form-control" id="floatingZipCode"/>
-            <label for="floatingZipCode">ZIP code</label>
+            <label for="floatingZipCode">Kod pocztowy</label>
         </div><br>
         <div class="form-floating">
             <form:input path="phone" class="form-control" id="floatingPhone"/>
-            <label for="floatingPhone">Phone no.</label>
+            <label for="floatingPhone">Numer telefonu</label>
         </div><br>
-        <button class="btn btn-primary w-100 py-2" type="submit">Add</button>
-        <div id="error-message" class="alert alert-danger d-none">
+        <button class="btn btn-primary w-100 py-2" type="submit">Dodaj</button>
+            <a href="/admin/departments">Cofnij</a>
+            <div id="error-message" class="alert alert-danger d-none">
             </form:form>
         </div>
     </div>

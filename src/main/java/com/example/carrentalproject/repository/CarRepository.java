@@ -34,7 +34,6 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
     List<Car> findByRatingAverageGreaterThan(double avg);
     List<Car> findByStatusContains(String status);
-
     List<Car> findByStatusContains(String status, PageRequest request);
 
 }

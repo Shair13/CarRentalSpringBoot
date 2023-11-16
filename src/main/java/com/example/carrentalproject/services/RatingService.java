@@ -20,8 +20,6 @@ public class RatingService {
         this.carRepository = carRepository;
     }
 
-
-
     public void ratingAverageRefreshByOpinion(Opinion opinion) {
         List<Integer> allRatings = opinionRepository.findAllByCar(opinion.getCar())
                 .stream()

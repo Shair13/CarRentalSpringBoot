@@ -8,18 +8,18 @@
 
 <%@ include file="../headers/home-header.jsp" %>
 
-<div class="cont">
+<div class="cont bgc-img2">
     <div class="car-opinion-container">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th scope="col">id</th>
-                <th scope="col">Brand</th>
+                <th scope="col">Marka</th>
                 <th scope="col">Model</th>
-                <th scope="col">Type</th>
-                <th scope="col">Production Date</th>
-                <th scope="col">Plates</th>
-                <th scope="col">Price/day</th>
+                <th scope="col">Typ</th>
+                <th scope="col">Data produkcji</th>
+                <th scope="col">Rejestracja</th>
+                <th scope="col">Cena za dzień</th>
                 <th scope="col">Średnia ocen</th>
 
             </tr>

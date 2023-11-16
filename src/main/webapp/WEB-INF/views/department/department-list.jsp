@@ -10,7 +10,7 @@
     <div class="user-name">${user.type} : ${user.email}</div>
     <div class="logo"></div>
 </header>
-<div class="container">
+<div class="container bgc-img3">
 
     <%@ include file="../headers/admin-dashboard-header.jsp" %>
 
@@ -25,12 +25,12 @@
                 <thead>
                 <tr>
                     <th scope="col">id</th>
-                    <th scope="col">City</th>
-                    <th scope="col">Street</th>
-                    <th scope="col">Address number</th>
-                    <th scope="col">ZIP code</th>
-                    <th scope="col">Phone no.</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">Miasto</th>
+                    <th scope="col">Ulica</th>
+                    <th scope="col">Numer budynku / lokalu</th>
+                    <th scope="col">Kod pocztowy</th>
+                    <th scope="col">Numer telefonu</th>
+                    <th scope="col">Akcje</th>
                 </tr>
                 </thead>
                 <tbody>

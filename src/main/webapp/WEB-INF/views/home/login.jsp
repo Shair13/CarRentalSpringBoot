@@ -8,17 +8,15 @@
 
 <%@ include file="../headers/home-header.jsp" %>
 
-<div class="content">
+<div class="content bgc-img1">
         <form method="post" id="loginForm">
             <h1>Logowanie</h1> <br>
             <div class="form-floating">
                 <input type="email" name="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
-                <label for="floatingEmail">Email address</label>
             </div>
             <br>
             <div class="form-floating">
-                <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
-                <label for="floatingPassword">Password</label>
+                <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Hasło">
             </div>
             <br>
             <input type="submit" value="OK">

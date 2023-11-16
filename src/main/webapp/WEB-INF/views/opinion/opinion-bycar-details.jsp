@@ -11,10 +11,9 @@
     <div class="logo"></div>
 </header>
 
-<div class="container">
+<div class="container bgc-img3">
 
     <%@ include file="../headers/admin-dashboard-header.jsp" %>
-
 
 
     <div class="content">
@@ -45,20 +44,18 @@
                     <td>${opinion.car.fullName}</td>
                     <td>${opinion.content}</td>
                     <td>${opinion.rating} / 5</td>
-                    <td><a href="/opinion/delete?id=${opinion.id}"><button type="button" class="btn btn-outline-danger">Usuń</button></a>
-                        <a href="/opinion/update?id=${opinion.id}"><button type="button" class="btn btn-outline-warning">Aktualizuj</button></a></td>
+                    <td>
+                        <a href="/admin/opinion/delete?id=${opinion.id}">
+                            <button type="button" class="btn btn-outline-danger">Usuń</button>
+                        </a>
+                        <a href="/admin/opinion/edit?id=${opinion.id}">
+                            <button type="button" class="btn btn-outline-warning">Edytuj</button>
+                        </a>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <!-- Wyświetl paginację -->
-<%--        <div class="pagination">--%>
-<%--            <c:if test="${opinions.totalPages > 1}">--%>
-<%--                <c:forEach begin="0" end="${opinions.totalPages - 1}" varStatus="page">--%>
-<%--                    <a href="?page=${page.index}"><div class="add-new-car">${page.index + 1}</div></a>--%>
-<%--                </c:forEach>--%>
-<%--            </c:if>--%>
-<%--        </div>--%>
     </div>
 </div>
 

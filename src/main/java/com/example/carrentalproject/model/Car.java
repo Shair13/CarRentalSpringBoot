@@ -35,7 +35,7 @@ public class Car {
     @Min(0)
     private double pricePerDay;
     @NotBlank
-    private String status = "servis";
+    private String status = "service";
     @Min(0)
     private int mileage;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

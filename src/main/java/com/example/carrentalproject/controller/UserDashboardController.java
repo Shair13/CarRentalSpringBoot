@@ -45,7 +45,7 @@ public class UserDashboardController {
             return "redirect:/login";
         }
         User user = (User) session.getAttribute("user");
-//        model.addAttribute("lastFive", rentRepository.findLast5ByCustomer(user));
+        model.addAttribute("active", rentRepository.findAllByCustomerAndStatus(user, "process"));
         model.addAttribute("user", user);
 
         return "acc-user/dashboard";
@@ -102,7 +102,7 @@ public class UserDashboardController {
     @GetMapping("/rent")
     public String displayUserAddForm(Model model, HttpSession session) {
         Rent rent = new Rent();
-        Optional<User> employeeOptional = userRepository.findById(5L); //bot jest pod ID 5
+        Optional<User> employeeOptional = userRepository.findById(15L); //bot jest pod ID 15
         employeeOptional.ifPresent(rent::setEmployee);
         model.addAttribute("rent", rent);
         return "acc-user/rent-car";

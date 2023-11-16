@@ -10,7 +10,7 @@
     <div class="user-name">${user.type} : ${user.email}</div>
     <div class="logo"></div>
 </header>
-<div class="container">
+<div class="container bgc-img3">
 
     <%@ include file="../headers/user-dashboard-header.jsp" %>
 
@@ -47,35 +47,10 @@
                     <td>${rent.price}</td>
                 </tr>
             </c:forEach>
-            <%--    <div class="modal fade" id="deleteMessage" tabindex="-1" role="dialog"--%>
-            <%--         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">--%>
-            <%--        <div class="modal-dialog modal-dialog-centered" role="document">--%>
-            <%--            <div class="modal-content">--%>
-            <%--                <div class="modal-header">--%>
-            <%--                    <h5 class="modal-title" id="exampleModalLongTitle">Usuń pojazd</h5>--%>
-            <%--                    <button type="button" class="btn btn-outline-light" data-dismiss="modal"--%>
-            <%--                            aria-label="Close">--%>
-            <%--                        <span aria-hidden="true">&times;</span>--%>
-            <%--                    </button>--%>
-            <%--                </div>--%>
-            <%--                <div class="modal-body" id="deleteMessageBody">--%>
-            <%--                    Czy na pewno chcesz usunąć ten pojazd?--%>
-            <%--                </div>--%>
-            <%--                <div class="modal-footer" id="deleteMessageFooter">--%>
-            <%--                    <button type="button" class="btn btn-outline-light"--%>
-            <%--                            data-dismiss="modal">Anuluj--%>
-            <%--                    </button>--%>
-            <%--                    <a href=""--%>
-            <%--                       class="btn btn-outline-danger"--%>
-            <%--                       data-target="#deleteMessage">Usuń</a>--%>
-            <%--                </div>--%>
-            <%--            </div>--%>
-            <%--        </div>--%>
-            <%--    </div>--%>
             </tbody>
         </table>
     </div>
 </div>
-<%--<script src="/js/dashboard.js"></script>--%>
+<script src="../../../js/dashboard.js"></script>
 </body>
 </html>
