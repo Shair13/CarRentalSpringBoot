@@ -3,20 +3,17 @@ package com.example.carrentalproject.services;
 import com.example.carrentalproject.exception.DepartmentNotFoundException;
 import com.example.carrentalproject.model.Department;
 import com.example.carrentalproject.repository.DepartmentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@RequiredArgsConstructor
 @Service
 public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
-
-    public DepartmentService(DepartmentRepository departmentRepository) {
-        this.departmentRepository = departmentRepository;
-    }
 
     public Department save(Department department) {
         return departmentRepository.save(department);

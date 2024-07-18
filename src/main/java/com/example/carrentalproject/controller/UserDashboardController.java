@@ -4,8 +4,10 @@ import com.example.carrentalproject.model.Car;
 import com.example.carrentalproject.model.Department;
 import com.example.carrentalproject.model.Rent;
 import com.example.carrentalproject.model.User;
-import com.example.carrentalproject.repository.DepartmentRepository;
-import com.example.carrentalproject.services.*;
+import com.example.carrentalproject.services.CarService;
+import com.example.carrentalproject.services.DepartmentService;
+import com.example.carrentalproject.services.RentService;
+import com.example.carrentalproject.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +27,6 @@ public class UserDashboardController {
     private final RentService rentService;
     private final CarService carService;
     private final DepartmentService departmentService;
-    private final PriceToPayService priceToPayService;
 
     @RequestMapping("/dashboard")
     public String displayDashboard(HttpSession session, Model model) {
@@ -105,7 +106,7 @@ public class UserDashboardController {
         }
         User user = (User) session.getAttribute("user");
         rent.setCustomer(user);
-        rent.setPrice(priceToPayService.priceToPay(rent));
+        rent.setPrice(rentService.priceToPay(rent));
         carService.updateCarStatus("reserved", rent);
         rentService.save(rent);
         return "redirect:/user/rentals";

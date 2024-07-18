@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -34,11 +36,11 @@ public class RentService {
         return rentRepository.findAll(pageable);
     }
 
-    public List<Rent> findAllByCustomerAndStatus(User user, String status){
+    public List<Rent> findAllByCustomerAndStatus(User user, String status) {
         return rentRepository.findAllByCustomerAndStatus(user, status);
     }
 
-    public List<Rent> findAllByCustomer(User user){
+    public List<Rent> findAllByCustomer(User user) {
         return rentRepository.findAllByCustomerOrderByIdDesc(user);
     }
 
@@ -52,5 +54,13 @@ public class RentService {
 
     public void delete(Long id) {
         rentRepository.deleteRentById(id);
+    }
+
+    public double priceToPay(Rent rent) {
+        double pricePerDay = rent.getCar().getPricePerDay();
+        LocalDate start = rent.getStartDate();
+        LocalDate end = rent.getReturnDate();
+        double days = ChronoUnit.DAYS.between(start, end);
+        return pricePerDay * days;
     }
 }

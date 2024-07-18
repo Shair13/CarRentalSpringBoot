@@ -3,7 +3,6 @@ package com.example.carrentalproject.controller;
 import com.example.carrentalproject.model.Car;
 import com.example.carrentalproject.model.TypeOfCar;
 import com.example.carrentalproject.services.CarService;
-import com.example.carrentalproject.services.RatingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,7 +20,6 @@ import java.util.List;
 public class CarController {
 
     private final CarService carService;
-    private final RatingService ratingService;
 
     @GetMapping("/car/add")
     public String displayAddForm(Model model) {
@@ -56,15 +55,12 @@ public class CarController {
             return "car/car-edit-form";
         }
         carService.save(car);
-        ratingService.ratingAverageRefreshByCar(car.getId());
         return "redirect:/admin/cars";
     }
 
     @RequestMapping("/car/delete")
     public String deleteCar(@RequestParam Long id) {
         carService.delete(id);
-        ratingService.ratingAverageRefreshByCar(id);
-
         return "redirect:/admin/cars";
     }
 
@@ -81,10 +77,7 @@ public class CarController {
 
     @ModelAttribute("statuses")
     public List<String> statuses() {
-        List<String> statuses = new ArrayList<>();
-        statuses.add("service");
-        statuses.add("reserved");
-        statuses.add("available");
-        return statuses;
+        return new ArrayList<>(Arrays.asList("service", "reserved", "available"));
     }
 }
+

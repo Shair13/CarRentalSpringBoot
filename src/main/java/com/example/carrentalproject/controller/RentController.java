@@ -4,7 +4,10 @@ import com.example.carrentalproject.model.Car;
 import com.example.carrentalproject.model.Department;
 import com.example.carrentalproject.model.Rent;
 import com.example.carrentalproject.model.User;
-import com.example.carrentalproject.services.*;
+import com.example.carrentalproject.services.CarService;
+import com.example.carrentalproject.services.DepartmentService;
+import com.example.carrentalproject.services.RentService;
+import com.example.carrentalproject.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,7 +30,6 @@ public class RentController {
     private final UserService userService;
     private final DepartmentService departmentService;
     private final CarService carService;
-    private final PriceToPayService priceToPayService;
 
     @GetMapping("/rent/add")
     public String displayAddForm(Model model) {
@@ -41,7 +43,7 @@ public class RentController {
             return "rent/rent-add-form";
         }
         carService.updateCarStatus("reserved", rent);
-        rent.setPrice(priceToPayService.priceToPay(rent));
+        rent.setPrice(rentService.priceToPay(rent));
         rentService.save(rent);
         return "redirect:/admin/rentals";
     }
@@ -84,7 +86,7 @@ public class RentController {
         if (bindingResult.hasErrors()) {
             return "rent/rent-edit-form";
         }
-        rent.setPrice(priceToPayService.priceToPay(rent));
+        rent.setPrice(rentService.priceToPay(rent));
         rentService.save(rent);
         return "redirect:/admin/rentals";
     }
