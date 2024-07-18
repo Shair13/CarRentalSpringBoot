@@ -3,14 +3,12 @@ package com.example.carrentalproject.controller;
 import com.example.carrentalproject.model.Car;
 import com.example.carrentalproject.model.Department;
 import com.example.carrentalproject.repository.DepartmentRepository;
+import com.example.carrentalproject.services.DepartmentService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
@@ -20,10 +18,10 @@ import java.util.Optional;
 @RequestMapping("/admin")
 public class DepartmentController {
 
-    private final DepartmentRepository departmentRepository;
+    private final DepartmentService departmentService;
 
-    public DepartmentController(DepartmentRepository departmentRepository) {
-        this.departmentRepository = departmentRepository;
+    public DepartmentController(DepartmentService departmentService) {
+        this.departmentService = departmentService;
     }
 
     @GetMapping("/department/add")
@@ -37,28 +35,25 @@ public class DepartmentController {
         if(bindingResult.hasErrors()){
             return "department/department-add-form";
         }
-        departmentRepository.save(department);
+        departmentService.save(department);
         return "redirect:/admin/departments";
     }
 
-    @RequestMapping("/departments")
+    @GetMapping("/departments")
     public String showAllDepartments(Model model, @RequestParam(defaultValue = "0") int page){
-        PageRequest pageable = PageRequest.of(page, 10);
-        model.addAttribute("departments", departmentRepository.findAll(pageable));
+        model.addAttribute("departments", departmentService.findAll(page));
         return "department/department-list";
     }
 
-    @RequestMapping("/department/details")
+    @GetMapping("/department/details")
     public String carDetails(@RequestParam Long id, Model model){
-        Optional<Department> carOptional = departmentRepository.findById(id);
-        carOptional.ifPresent(d -> model.addAttribute("dep", d));
+        model.addAttribute("dep", departmentService.findById(id));
         return "department/department-admin-details";
     }
 
     @GetMapping("/department/edit")
     public String displayUpdateForm(@RequestParam Long id, Model model){
-        Optional<Department> departmentOptional = departmentRepository.findById(id);
-        departmentOptional.ifPresent(d -> model.addAttribute("department", d));
+        model.addAttribute("department", departmentService.findById(id));
         return "/department/department-edit-form";
     }
 
@@ -67,14 +62,13 @@ public class DepartmentController {
         if (bindingResult.hasErrors()){
             return "department/department-edit-form";
         }
-        departmentRepository.save(department);
+        departmentService.save(department);
         return "redirect:/admin/departments";
     }
 
-    @RequestMapping("/department/delete")
+    @DeleteMapping("/department/delete")
     public String deleteDepartment(@RequestParam Long id){
-        Optional<Department> optionalDepartment = departmentRepository.findById(id);
-        optionalDepartment.ifPresent(departmentRepository::delete);
+        departmentService.delete(id);
         return "redirect:/admin/departments";
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CarService {
@@ -19,8 +18,9 @@ public class CarService {
     private final CarRepository carRepository;
     private final TypeOfCarRepository typeOfCarRepository;
 
-    public CarService(CarRepository carRepository) {
+    public CarService(CarRepository carRepository, TypeOfCarRepository typeOfCarRepository) {
         this.carRepository = carRepository;
+        this.typeOfCarRepository = typeOfCarRepository;
     }
 
     public Car save(Car car) {
