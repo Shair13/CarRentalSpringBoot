@@ -29,7 +29,7 @@ public class RentService {
 
     public Page<Rent> findAll(int page) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        PageRequest pageable = PageRequest.of(page, 50, sort);,
+        PageRequest pageable = PageRequest.of(page, 50, sort);
         return rentRepository.findAll(pageable);
     }
 
