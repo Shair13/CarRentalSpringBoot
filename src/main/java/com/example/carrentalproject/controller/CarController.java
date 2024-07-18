@@ -4,6 +4,7 @@ import com.example.carrentalproject.model.Car;
 import com.example.carrentalproject.model.TypeOfCar;
 import com.example.carrentalproject.services.CarService;
 import com.example.carrentalproject.services.RatingService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,17 +14,13 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("admin")
 public class CarController {
 
     private final CarService carService;
     private final RatingService ratingService;
-
-    public CarController(CarService carService, RatingService ratingService) {
-        this.carService = carService;
-        this.ratingService = ratingService;
-    }
 
     @GetMapping("/car/add")
     public String displayAddForm(Model model) {

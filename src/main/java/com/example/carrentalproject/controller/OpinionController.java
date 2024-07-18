@@ -7,6 +7,8 @@ import com.example.carrentalproject.repository.CarRepository;
 import com.example.carrentalproject.repository.OpinionRepository;
 import com.example.carrentalproject.repository.UserRepository;
 import com.example.carrentalproject.services.RatingService;
+import com.example.carrentalproject.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,25 +16,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("admin")
 public class OpinionController {
 
     private final OpinionRepository opinionRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final CarRepository carRepository;
     private final RatingService ratingService;
-
-    public OpinionController(OpinionRepository opinionRepository, UserRepository userRepository, CarRepository carRepository, RatingService ratingService) {
-        this.opinionRepository = opinionRepository;
-        this.userRepository = userRepository;
-        this.carRepository = carRepository;
-        this.ratingService = ratingService;
-    }
 
     @GetMapping("/opinion/add")
     public String displayAddForm(Model model) {
@@ -102,7 +97,7 @@ public class OpinionController {
 
     @ModelAttribute("users")
     public List<User> getUserList() {
-        return userRepository.findAll();
+        return userService.findAll();
     }
 
     @ModelAttribute("cars")

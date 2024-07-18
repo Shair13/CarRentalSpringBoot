@@ -5,6 +5,7 @@ import com.example.carrentalproject.model.Department;
 import com.example.carrentalproject.model.Rent;
 import com.example.carrentalproject.model.User;
 import com.example.carrentalproject.services.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin")
 @SessionAttributes("user")
@@ -26,14 +28,6 @@ public class RentController {
     private final DepartmentService departmentService;
     private final CarService carService;
     private final PriceToPayService priceToPayService;
-
-    public RentController(RentService rentService, UserService userService, DepartmentService departmentService, CarService carService, PriceToPayService priceToPayService) {
-        this.rentService = rentService;
-        this.userService = userService;
-        this.departmentService = departmentService;
-        this.carService = carService;
-        this.priceToPayService = priceToPayService;
-    }
 
     @GetMapping("/rent/add")
     public String displayAddForm(Model model) {

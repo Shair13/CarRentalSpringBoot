@@ -2,6 +2,7 @@ package com.example.carrentalproject.services;
 
 import com.example.carrentalproject.exception.RentNotFoundException;
 import com.example.carrentalproject.model.Rent;
+import com.example.carrentalproject.model.User;
 import com.example.carrentalproject.repository.RentRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +32,14 @@ public class RentService {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         PageRequest pageable = PageRequest.of(page, 50, sort);
         return rentRepository.findAll(pageable);
+    }
+
+    public List<Rent> findAllByCustomerAndStatus(User user, String status){
+        return rentRepository.findAllByCustomerAndStatus(user, status);
+    }
+
+    public List<Rent> findAllByCustomer(User user){
+        return rentRepository.findAllByCustomerOrderByIdDesc(user);
     }
 
     public Rent findById(Long id) {

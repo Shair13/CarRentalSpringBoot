@@ -6,7 +6,11 @@ import com.example.carrentalproject.model.User;
 import com.example.carrentalproject.repository.CarRepository;
 import com.example.carrentalproject.repository.OpinionRepository;
 import com.example.carrentalproject.repository.UserRepository;
+import com.example.carrentalproject.services.CarService;
+import com.example.carrentalproject.services.OpinionService;
 import com.example.carrentalproject.services.RatingService;
+import com.example.carrentalproject.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -16,25 +20,17 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Controller
 @SessionAttributes("user")
 public class HomeController {
 
-    private final UserRepository userRepository;
-    private final CarRepository carRepository;
-    private final OpinionRepository opinionRepository;
+    private final UserService userService;
+    private final CarService carService;
+    private final OpinionService opinionService;
     private final RatingService ratingService;
-
-    public HomeController(UserRepository userRepository, CarRepository carRepository, OpinionRepository opinionRepository, RatingService ratingService) {
-        this.userRepository = userRepository;
-        this.carRepository = carRepository;
-        this.opinionRepository = opinionRepository;
-        this.ratingService = ratingService;
-    }
 
     @RequestMapping("/")
     public String home() {
@@ -52,7 +48,7 @@ public class HomeController {
         if (bindingResult.hasErrors() || !user.getPassword().equals(pass)) {
             return "home/registration";
         }
-        userRepository.save(user);
+        userService.save(user);
         return "redirect:/";
     }
 
@@ -64,19 +60,12 @@ public class HomeController {
 
     @PostMapping("/login")
     public String processLogin(@RequestParam String email, @RequestParam String password, Model model) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if (userOptional.isEmpty()) {
-            return "redirect:/login";
-        }
-        User user = userOptional.get();
+        User user = userService.findByEmail(email);
         String typeOfUser = user.getType();
         if ("user".equals(typeOfUser) && user.getPassword().equals(password)) {
             model.addAttribute("user", user);
             return "redirect:/user/dashboard";
         }
-//        if (typeOfUser.equals("employee") && user.getPassword().equals(password)) {
-//            return "";
-//        }
         if ("admin".equals(typeOfUser) && user.getPassword().equals(password)) {
             model.addAttribute("user", user);
             return "redirect:/admin/dashboard";
@@ -88,24 +77,22 @@ public class HomeController {
     public String showAllCars(Model model, @RequestParam(defaultValue = "0") int page) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         PageRequest pageable = PageRequest.of(page, 20, sort);
-        model.addAttribute("cars", carRepository.findAll(pageable));
+        model.addAttribute("cars", carService.findAll(page));
         return "home/fleet-list";
     }
 
     @GetMapping("/opinions")
     public String showCarOpinions(@RequestParam Long carId, Model model, HttpSession session) {
-        Optional<Car> carOptional = carRepository.findById(carId);
+        Car car = carService.findById(carId);
         Opinion newOpinion = new Opinion();
-        carOptional.ifPresent(c -> {
-            model.addAttribute("car", c);
-            newOpinion.setCar(c);
-        });
+        newOpinion.setCar(car);
+
         if (session.getAttribute("user") != null) {
             User user = (User) session.getAttribute("user");
             newOpinion.setUser(user);
         }
         model.addAttribute("rating", ratingService.getRatingList());
-        model.addAttribute("opinions", opinionRepository.findAllByCar(carOptional.get(), Sort.by(Sort.Order.desc("id"))));
+        model.addAttribute("opinions", opinionService.findAllByCar(car));
         model.addAttribute("opinion", newOpinion);
         return "home/opinions-to-car";
     }
@@ -115,23 +102,22 @@ public class HomeController {
         if (bindingResult.hasErrors()) {
             return "redirect:/opinions?carId=" + opinion.getCar().getId();
         }
-        opinionRepository.save(opinion);
+        opinionService.save(opinion);
         ratingService.ratingAverageRefreshByOpinion(opinion);
         return "redirect:/opinions?carId=" + opinion.getCar().getId();
     }
 
     @RequestMapping("/contact")
-    public String showContactPage(Model model){
-        model.addAttribute("CEO", userRepository.findAllByType("admin"));
+    public String showContactPage(Model model) {
+        model.addAttribute("CEO", userService.findAllByType("admin"));
         return "home/contact";
 
     }
 
     @RequestMapping("/available")
-    public String availableCars(Model model, @RequestParam(defaultValue = "0") int page){
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        PageRequest pageable = PageRequest.of(page, 20, sort);
-        model.addAttribute("available", carRepository.findByStatusContains("available", pageable));
+    public String availableCars(Model model, @RequestParam(defaultValue = "0") int page) {
+
+        model.addAttribute("available", carService.findByStatus("available", page));
         return "home/available";
     }
 }

@@ -4,11 +4,9 @@ import com.example.carrentalproject.model.Car;
 import com.example.carrentalproject.model.Department;
 import com.example.carrentalproject.model.Rent;
 import com.example.carrentalproject.model.User;
-import com.example.carrentalproject.repository.CarRepository;
 import com.example.carrentalproject.repository.DepartmentRepository;
-import com.example.carrentalproject.repository.RentRepository;
-import com.example.carrentalproject.repository.UserRepository;
-import com.example.carrentalproject.services.PriceToPayService;
+import com.example.carrentalproject.services.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,27 +15,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/user")
 public class UserDashboardController {
 
-    private final UserRepository userRepository;
-    private final RentRepository rentRepository;
-    private final CarRepository carRepository;
-    private final DepartmentRepository departmentRepository;
+    private final UserService userService;
+    private final RentService rentService;
+    private final CarService carService;
+    private final DepartmentService departmentService;
     private final PriceToPayService priceToPayService;
-
-    public UserDashboardController(UserRepository userRepository, RentRepository rentRepository, CarRepository carRepository, DepartmentRepository departmentRepository, PriceToPayService priceToPayService) {
-        this.userRepository = userRepository;
-        this.rentRepository = rentRepository;
-        this.carRepository = carRepository;
-        this.departmentRepository = departmentRepository;
-        this.priceToPayService = priceToPayService;
-    }
-
-
 
     @RequestMapping("/dashboard")
     public String displayDashboard(HttpSession session, Model model) {
@@ -45,7 +33,7 @@ public class UserDashboardController {
             return "redirect:/login";
         }
         User user = (User) session.getAttribute("user");
-        model.addAttribute("active", rentRepository.findAllByCustomerAndStatus(user, "process"));
+        model.addAttribute("active", rentService.findAllByCustomerAndStatus(user, "process"));
         model.addAttribute("user", user);
 
         return "acc-user/dashboard";
@@ -63,8 +51,7 @@ public class UserDashboardController {
             return "redirect:/login";
         }
         User user = (User) session.getAttribute("user");
-        Optional<User> userOptional = userRepository.findById(user.getId());
-        userOptional.ifPresent(u -> model.addAttribute("user", u));
+        model.addAttribute("user", userService.findById(user.getId()));
         return "acc-user/edit-data";
     }
 
@@ -73,7 +60,7 @@ public class UserDashboardController {
         if (bindingResult.hasErrors()) {
             return "redirect:/user/edit/data";
         }
-        userRepository.update(user.getFirstName(), user.getLastName(), user.getEmail(), user.getId());
+        userService.update(user);
         session.setAttribute("user", user);
         return "redirect:/user/dashboard";
     }
@@ -90,11 +77,11 @@ public class UserDashboardController {
     public String processUpdateUserPassForm(@RequestParam String pass1,
                                             @RequestParam String pass2,
                                             HttpSession session) {
-        if ("".equals(pass1) || !pass1.equals(pass2)){
+        if ("".equals(pass1) || !pass1.equals(pass2)) {
             return "redirect:/user/edit/password";
         }
         User user = (User) session.getAttribute("user");
-        userRepository.updatePassword(pass1, user.getId());
+        userService.updatePassword(pass1, user.getId());
         session.setAttribute("user", user);
         return "redirect:/user/dashboard";
     }
@@ -102,8 +89,8 @@ public class UserDashboardController {
     @GetMapping("/rent")
     public String displayUserAddForm(Model model, HttpSession session) {
         Rent rent = new Rent();
-        Optional<User> employeeOptional = userRepository.findById(15L); //bot jest pod ID 15
-        employeeOptional.ifPresent(rent::setEmployee);
+        User bot = userService.findById(15L); //bot jest pod ID 15
+        rent.setEmployee(bot);
         model.addAttribute("rent", rent);
         return "acc-user/rent-car";
     }
@@ -119,8 +106,8 @@ public class UserDashboardController {
         User user = (User) session.getAttribute("user");
         rent.setCustomer(user);
         rent.setPrice(priceToPayService.priceToPay(rent));
-        carRepository.updateCarStatus("reserved", rent.getCar().getId());
-        rentRepository.save(rent);
+        carService.updateCarStatus("reserved", rent);
+        rentService.save(rent);
         return "redirect:/user/rentals";
     }
 
@@ -131,18 +118,18 @@ public class UserDashboardController {
             return "redirect:/login";
         }
         User user = (User) session.getAttribute("user");
-        model.addAttribute("rentals", rentRepository.findAllByCustomerOrderByIdDesc(user));
+        model.addAttribute("rentals", rentService.findAllByCustomer(user));
         return "acc-user/rent-list";
     }
 
     @ModelAttribute("freeCars")
     public List<Car> getAllAvailableCars() {
-        return carRepository.findByStatusContains("available");
+        return carService.findByStatus("available");
     }
 
     @ModelAttribute("departments")
     public List<Department> getAllDepartments() {
-        return departmentRepository.findAll();
+        return departmentService.findAll();
     }
 
 }

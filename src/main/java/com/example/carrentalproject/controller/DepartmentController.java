@@ -1,28 +1,21 @@
 package com.example.carrentalproject.controller;
 
-import com.example.carrentalproject.model.Car;
 import com.example.carrentalproject.model.Department;
-import com.example.carrentalproject.repository.DepartmentRepository;
 import com.example.carrentalproject.services.DepartmentService;
-import org.springframework.data.domain.PageRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.validation.Valid;
-import java.util.Optional;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin")
 public class DepartmentController {
 
     private final DepartmentService departmentService;
-
-    public DepartmentController(DepartmentService departmentService) {
-        this.departmentService = departmentService;
-    }
 
     @GetMapping("/department/add")
     public String displayAddForm(Model model){

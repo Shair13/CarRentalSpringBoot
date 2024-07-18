@@ -23,6 +23,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
     public Page<User> findAll(int page) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         PageRequest pageable = PageRequest.of(page, 10, sort);
@@ -37,8 +41,20 @@ public class UserService {
         return userRepository.findByEmailContaining(search);
     }
 
-    public List<User> findAllByType(String type){
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+    }
+
+    public List<User> findAllByType(String type) {
         return userRepository.findAllByType(type);
+    }
+
+    public void update(User user){
+        userRepository.update(user.getFirstName(), user.getLastName(), user.getEmail(), user.getId());
+    }
+
+    public void updatePassword(String password, Long id){
+        userRepository.updatePassword(password, id);
     }
 
     public void delete(Long id) {

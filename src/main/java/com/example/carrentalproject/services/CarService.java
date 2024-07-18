@@ -41,6 +41,11 @@ public class CarService {
     public List<Car> findByStatus(String status) {
         return carRepository.findByStatusContains(status);
     }
+    public List<Car> findByStatus(String status, int page) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        PageRequest pageable = PageRequest.of(page, 20, sort);
+        return carRepository.findByStatusContains(status, pageable);
+    }
 
 
     public Car findById(Long id) {

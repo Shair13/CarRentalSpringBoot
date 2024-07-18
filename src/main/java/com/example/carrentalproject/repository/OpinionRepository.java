@@ -10,5 +10,8 @@ import java.util.List;
 public interface OpinionRepository extends JpaRepository<Opinion, Long> {
 
     List<Opinion> findAllByCar(Car car);
+
     List<Opinion> findAllByCar(Car car, Sort sortByIdDesc);
+
+    void deleteOpinionById(Long id);
 }
