@@ -36,4 +36,6 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     List<Car> findByStatusContains(String status);
     List<Car> findByStatusContains(String status, PageRequest request);
 
+    void deleteCarById(Long id);
+
 }

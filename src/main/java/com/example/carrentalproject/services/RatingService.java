@@ -1,5 +1,6 @@
 package com.example.carrentalproject.services;
 
+import com.example.carrentalproject.exception.CarNotFoundException;
 import com.example.carrentalproject.model.Car;
 import com.example.carrentalproject.model.Opinion;
 import com.example.carrentalproject.repository.CarRepository;
@@ -38,7 +39,8 @@ public class RatingService {
         carRepository.updateAvgRating(result, opinion.getCar().getId());
     }
 
-    public void ratingAverageRefreshByCar(Car car) {
+    public void ratingAverageRefreshByCar(Long id) {
+        Car car = carRepository.findById(id).orElseThrow(CarNotFoundException::new);
         List<Integer> allRatings = opinionRepository.findAllByCar(car)
                 .stream()
                 .map(Opinion::getRating)
