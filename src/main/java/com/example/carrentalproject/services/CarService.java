@@ -20,7 +20,6 @@ public class CarService {
 
     private final CarRepository carRepository;
     private final TypeOfCarRepository typeOfCarRepository;
-    private final OpinionService opinionService;
 
     public Car save(Car car) {
         return carRepository.save(car);
@@ -64,7 +63,6 @@ public class CarService {
 
     public void delete(Long id) {
         carRepository.deleteCarById(id);
-        opinionService.ratingAverageRefreshByCar(id);
     }
 
     public List<TypeOfCar> findAllTypesOfCar() {
