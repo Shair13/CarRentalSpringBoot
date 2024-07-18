@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DepartmentService {
 
@@ -18,6 +20,10 @@ public class DepartmentService {
 
     public Department save(Department department) {
         return departmentRepository.save(department);
+    }
+
+    public List<Department> findAll() {
+        return departmentRepository.findAll();
     }
 
     public Page<Department> findAll(int page) {

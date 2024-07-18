@@ -2,6 +2,7 @@ package com.example.carrentalproject.services;
 
 import com.example.carrentalproject.exception.CarNotFoundException;
 import com.example.carrentalproject.model.Car;
+import com.example.carrentalproject.model.Rent;
 import com.example.carrentalproject.model.TypeOfCar;
 import com.example.carrentalproject.repository.CarRepository;
 import com.example.carrentalproject.repository.TypeOfCarRepository;
@@ -27,14 +28,27 @@ public class CarService {
         return carRepository.save(car);
     }
 
+    public List<Car> findAll() {
+        return carRepository.findAll();
+    }
+
     public Page<Car> findAll(int page) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         PageRequest pageable = PageRequest.of(page, 5, sort);
         return carRepository.findAll(pageable);
     }
 
+    public List<Car> findByStatus(String status) {
+        return carRepository.findByStatusContains(status);
+    }
+
+
     public Car findById(Long id) {
         return carRepository.findById(id).orElseThrow(CarNotFoundException::new);
+    }
+
+    public void updateCarStatus(String status, Rent rent) {
+        carRepository.updateCarStatus(status, rent.getCar().getId());
     }
 
     public void delete(Long id) {
@@ -43,5 +57,9 @@ public class CarService {
 
     public List<TypeOfCar> findAllTypesOfCar() {
         return typeOfCarRepository.findAll();
+    }
+
+    public void updateStatusAndMileage(String status, int mileage, Rent rent){
+        carRepository.updateCarStatusAndMileage(status, mileage, rent.getCar().getId());
     }
 }

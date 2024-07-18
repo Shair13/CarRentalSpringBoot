@@ -20,6 +20,6 @@ public interface RentRepository extends JpaRepository<Rent, Long> {
     @Query(value = "UPDATE rentals SET status = ?1 WHERE id = ?2",
             nativeQuery = true)
     void updateStatus(String status, Long id);
-
+    void deleteRentById(Long id);
 
 }

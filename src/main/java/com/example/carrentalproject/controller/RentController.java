@@ -4,11 +4,7 @@ import com.example.carrentalproject.model.Car;
 import com.example.carrentalproject.model.Department;
 import com.example.carrentalproject.model.Rent;
 import com.example.carrentalproject.model.User;
-import com.example.carrentalproject.repository.CarRepository;
-import com.example.carrentalproject.repository.DepartmentRepository;
-import com.example.carrentalproject.repository.RentRepository;
-import com.example.carrentalproject.repository.UserRepository;
-import com.example.carrentalproject.services.PriceToPayService;
+import com.example.carrentalproject.services.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -16,28 +12,26 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
 @SessionAttributes("user")
 public class RentController {
 
-    private final RentRepository rentRepository;
-    private final UserRepository userRepository;
-    private final DepartmentRepository departmentRepository;
-    private final CarRepository carRepository;
+    private final RentService rentService;
+    private final UserService userService;
+    private final DepartmentService departmentService;
+    private final CarService carService;
     private final PriceToPayService priceToPayService;
 
-    public RentController(RentRepository rentRepository, UserRepository userRepository, DepartmentRepository departmentRepository, CarRepository carRepository, PriceToPayService priceToPayService) {
-        this.rentRepository = rentRepository;
-        this.userRepository = userRepository;
-        this.departmentRepository = departmentRepository;
-        this.carRepository = carRepository;
+    public RentController(RentService rentService, UserService userService, DepartmentService departmentService, CarService carService, PriceToPayService priceToPayService) {
+        this.rentService = rentService;
+        this.userService = userService;
+        this.departmentService = departmentService;
+        this.carService = carService;
         this.priceToPayService = priceToPayService;
     }
 
@@ -52,16 +46,15 @@ public class RentController {
         if (bindingResult.hasErrors()) {
             return "rent/rent-add-form";
         }
-        carRepository.updateCarStatus("reserved", rent.getCar().getId());
+        carService.updateCarStatus("reserved", rent);
         rent.setPrice(priceToPayService.priceToPay(rent));
-        rentRepository.save(rent);
+        rentService.save(rent);
         return "redirect:/admin/rentals";
     }
 
     @GetMapping("/rent/end")
-    public String displayEndRentingForm(Model model, @RequestParam Long rentId) {
-        Optional<Rent> rentOptional = rentRepository.findById(rentId);
-        rentOptional.ifPresent(r -> model.addAttribute("rent", r));
+    public String displayEndRentingForm(Model model, @RequestParam Long id) {
+        model.addAttribute("rent", rentService.findById(id));
         return "rent/rent-end-form";
     }
 
@@ -73,8 +66,8 @@ public class RentController {
         if (mileage <= rent.getCar().getMileage()) {
             return "rent/rent-end-form";
         }
-        rentRepository.updateStatus("ended", rent.getId());
-        carRepository.updateCarStatusAndMileage("available", mileage, rent.getCar().getId());
+        rentService.updateStatus("ended", rent);
+        carService.updateStatusAndMileage("available", mileage, rent);
         return "redirect:/admin/rentals";
     }
 
@@ -82,14 +75,13 @@ public class RentController {
     public String showAllRentals(Model model, @RequestParam(defaultValue = "0") int page) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         PageRequest pageable = PageRequest.of(page, 50, sort);
-        model.addAttribute("rentals", rentRepository.findAll(pageable));
+        model.addAttribute("rentals", rentService.findAll(page));
         return "rent/rent-list";
     }
 
     @GetMapping("/rent/edit")
     public String displayUpdateForm(@RequestParam Long id, Model model) {
-        Optional<Rent> rentOptional = rentRepository.findById(id);
-        rentOptional.ifPresent(r -> model.addAttribute("rent", r));
+        model.addAttribute("rent", rentService.findById(id));
         return "rent/rent-edit-form";
     }
 
@@ -99,40 +91,39 @@ public class RentController {
             return "rent/rent-edit-form";
         }
         rent.setPrice(priceToPayService.priceToPay(rent));
-        rentRepository.save(rent);
+        rentService.save(rent);
         return "redirect:/admin/rentals";
     }
 
     @RequestMapping("/rent/delete")
     public String deleteRent(@RequestParam Long id) {
-        Optional<Rent> rentOptional = rentRepository.findById(id);
-        rentOptional.ifPresent(rentRepository::delete);
+        rentService.delete(id);
         return "redirect:/admin/rentals";
     }
 
     @ModelAttribute("employees")
     public List<User> getAllEmployees() {
-        return userRepository.findAllByType("employee");
+        return userService.findAllByType("employee");
     }
 
     @ModelAttribute("users")
     public List<User> getAllUsers() {
-        return userRepository.findAllByType("user");
+        return userService.findAllByType("user");
     }
 
     @ModelAttribute("departments")
     public List<Department> getAllDepartments() {
-        return departmentRepository.findAll();
+        return departmentService.findAll();
     }
 
     @ModelAttribute("cars")
     public List<Car> getAllCars() {
-        return carRepository.findAll();
+        return carService.findAll();
     }
 
     @ModelAttribute("freeCars")
     public List<Car> getAllAvailableCars() {
-        return carRepository.findByStatusContains("available");
+        return carService.findByStatus("available");
     }
 
     @ModelAttribute("rentStatuses")
