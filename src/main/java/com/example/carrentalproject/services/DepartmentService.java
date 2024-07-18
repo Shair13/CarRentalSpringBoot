@@ -1,13 +1,10 @@
 package com.example.carrentalproject.services;
 
-import com.example.carrentalproject.exception.CarNotFoundException;
 import com.example.carrentalproject.exception.DepartmentNotFoundException;
-import com.example.carrentalproject.model.Car;
 import com.example.carrentalproject.model.Department;
 import com.example.carrentalproject.repository.DepartmentRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service

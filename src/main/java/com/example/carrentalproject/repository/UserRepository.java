@@ -30,6 +30,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByEmailContaining(String search);
 
+    void deleteUserById(Long id);
+
 }
 
 
